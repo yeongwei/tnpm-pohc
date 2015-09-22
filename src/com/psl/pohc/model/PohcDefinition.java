@@ -1,16 +1,8 @@
 package com.psl.pohc.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class PohcDefinition {
-  private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-  private static final String TIME_ZONE = "GMT";
-  
-  public final Date DATE;
-  public final String RECORDED_DATE_TIME;
-  
+ 
   public final String SUB_SYSTEM;
   public final String REGION;
   public final String SYSTEM;
@@ -24,12 +16,9 @@ public class PohcDefinition {
   public final String OUTAGE_END;
   
   public PohcDefinition(
-      Date date,
       String subSystem, String region, String system, String groupName, String id,
       String phase, String nodeNames, String status, String domain, String outageStart,
       String outageEnd) {
-    DATE = date;
-    RECORDED_DATE_TIME = getGmtDateTime();
     
     SUB_SYSTEM = subSystem;
     REGION = region;
@@ -45,17 +34,9 @@ public class PohcDefinition {
     
   }
   
-  private String getGmtDateTime() {
-    SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
-    sdf.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
-    sdf.format(DATE);
-    return null;
-  }
-  
   public String asNameValuePair() {
     StringBuffer sb = new StringBuffer();
     
-    sb.append("RECORDED_DATE_TIME=\"" + RECORDED_DATE_TIME + "\" ");
     sb.append("SUB_SYSTEM=\"" + SUB_SYSTEM + "\" ");
     sb.append("REGION=\"" + REGION + "\" ");
     sb.append("SYSTEM=\"" + SYSTEM + "\" ");

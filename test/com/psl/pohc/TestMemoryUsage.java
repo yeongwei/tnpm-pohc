@@ -9,10 +9,11 @@ import com.psl.pohc.model.PohcDefinition;
 
 public class TestMemoryUsage {
   public static void main(String[] args) {
-    int numberOfObjects = 1000000;
+    // 10000, 100000, 1000000, 10000000
+    int numberOfObjects = 10;
     ArrayList<PohcDefinition> x = new ArrayList<PohcDefinition>();
     
-    Date currentDate = new Date();
+    Date currentDate = new Date(); // To facilitate RECORDED_DATE_TIME
     String random = UUID.randomUUID().toString();
     
     printMemoryUsage();
@@ -20,16 +21,17 @@ public class TestMemoryUsage {
     for (int i = 0; i < numberOfObjects; i++) {
       x.add(
           new PohcDefinition(
-              currentDate,
-              random, random, random, random, random, random, random, random, random, random, random));
+              random, random, random, random, random, random, random, random,
+              random, random, random));
     }
     
     printMemoryUsage();
-    /*
+    
+    
     for (PohcDefinition z : x) {
       System.out.println(z.asNameValuePair());
     }
-    */
+    
   }
   
   public static void printMemoryUsage() {
