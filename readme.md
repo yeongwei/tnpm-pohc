@@ -99,3 +99,18 @@ CREATE TABLE POHC_ARCHIVE (
 	OUTAGE_START DATE,
 	OUTAGE_END DATE);
 ```
+
+### Number Java Object Creation to Memory Usage
+
+1. 10000
+  * **START** `free memory: 15,325 allocated memory: 15,872 max memory: 253,440 total free memory: 252,893`
+  * **END** `free memory: 13,873 allocated memory: 15,872 max memory: 253,440 total free memory: 251,441`
+2. 100000
+  * **START** `free memory: 15,325 allocated memory: 15,872 max memory: 253,440 total free memory: 252,893`
+  * **END** `free memory: 6,002 allocated memory: 15,872 max memory: 253,440 total free memory: 243,570`
+3. 1000000
+  * **START** `free memory: 15,325 allocated memory: 15,872 max memory: 253,440 total free memory: 252,893`
+  * **END** `free memory: 29,367 allocated memory: 111,624 max memory: 253,440 total free memory: 171,183`
+4. 10000000
+  * **START** `free memory: 15,325 allocated memory: 15,872 max memory: 1,013,632 total free memory: 1,013,085`
+  * **END** `free memory: 97,191 allocated memory: 1,013,632 max memory: 1,013,632 total free memory: 97,191`
