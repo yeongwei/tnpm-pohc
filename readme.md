@@ -12,7 +12,7 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
 
 1. Handle up to 10,000 POHC entries
 2. Outage is expected to be planned at least 24 hours before. E.g. If a Site is planned for maintenance to happen at 2015-09-20 03:00:00 then the outage request must be sent latest by / at 2015-09-19 03:00:00
-3. Explode field values with delimiter into individual rows
+3. Explode field values with delimiter into individual rows. Delimiter could be comma or line-break.
 4. `SiteName` supercede `SiteId`
 
 #### Internal
@@ -58,3 +58,44 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
       * Save `SQL_STORE` as file
   * Compute `POHC_View_Summary`
   * Compare `POHC_Archive_Summary` and `POHC_View_Summary` then advice user 
+
+### Resource
+
+#### POHC Exposed Table DDL
+
+Consumable table by `Cognos Reporting Facility`
+
+```
+CREATE TABLE POHC_VIEW (
+	SUBSYSTEM VARCHAR2(200),
+	REGION VARCHAR2(60),
+	SYSTEM VARCHAR2(60),
+	GROUPNAME VARCHAR2(60),
+	ID VARCHAR2(30),
+	PHASE VARCHAR2(60),
+	NODE_NAMES VARCHAR2(255),
+	STATUS VARCHAR2(60),
+	DOMAIN VARCHAR2(60),
+	OUTAGE_START DATE,
+	OUTAGE_END DATE);
+```
+
+### POHC Archive Table DDL
+
+Persist records from POHC server.
+
+```
+CREATE TABLE POHC_ARCHIVE (
+	RECORDED_DATETIME DATETIME,
+	SUBSYSTEM VARCHAR2(200),
+	REGION VARCHAR2(60),
+	SYSTEM VARCHAR2(60),
+	GROUPNAME VARCHAR2(60),
+	ID VARCHAR2(30),
+	PHASE VARCHAR2(60),
+	NODE_NAMES VARCHAR2(255),
+	STATUS VARCHAR2(60),
+	DOMAIN VARCHAR2(60),
+	OUTAGE_START DATE,
+	OUTAGE_END DATE);
+```
