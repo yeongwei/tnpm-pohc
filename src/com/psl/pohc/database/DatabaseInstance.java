@@ -6,6 +6,7 @@ import java.util.Properties;
 
 public class DatabaseInstance {
   protected Connection connection;
+  private static boolean autoCommit = false;
   
   public DatabaseInstance (
       String driverClass, 
@@ -16,6 +17,7 @@ public class DatabaseInstance {
       connection = DriverManager.getConnection(
           Jdbc.getUrl(driverClass, host, port, sid),
           createCredentials(user, password));
+      connection.setAutoCommit(autoCommit);
       assert connection.isClosed() == false;
     } catch (ClassNotFoundException ex) {
       ex.printStackTrace();
@@ -40,7 +42,16 @@ public class DatabaseInstance {
       ex.printStackTrace();
       return false;
     }
-    
+  }
+  
+  public boolean commit() {
+    try {
+      connection.commit();
+      return true;
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      return false;
+    }
   }
 }
 
