@@ -47,13 +47,13 @@ public class Pohc extends DatabaseInstance {
     
     try {
       statement = this.connection.createStatement();
-      LOGGER.warning(String.format("About to execute SQL - %s", sql.toString()));
+      LOGGER.info(String.format("About to execute SQL - %s", sql.toString()));
       resultSet = statement.executeQuery(sql.toString());
       
       while (resultSet.next()) {
         x.add(parsePohcRecord(resultSet));
       }
-      LOGGER.warning(
+      LOGGER.info(
           String.format("%d record object(s) created.", x.size()));
     } catch (Exception ex) {
       ex.printStackTrace();
