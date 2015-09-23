@@ -16,15 +16,16 @@ public class PohcDefinition {
 
   private Type TYPE = Type.NONE;
 
-  public PohcDefinition(String subSystem, String region, String system,
-      String groupName, String id, String phase, String nodeNames,
+  public PohcDefinition(String id, 
+      String subSystem, String region, String system,
+      String groupName, String phase, String nodeNames,
       String status, String domain, String outageStart, String outageEnd) {
 
+    ID = id;
     SUBSYSTEM = subSystem;
     REGION = region;
     SYSTEM = system;
     GROUPNAME = groupName;
-    ID = id;
     PHASE = phase;
     NODE_NAMES = nodeNames;
     STATUS = status;
@@ -37,11 +38,11 @@ public class PohcDefinition {
   public String asNameValuePair() {
     StringBuffer sb = new StringBuffer();
 
+    sb.append("ID=\"" + ID + "\" ");
     sb.append("SUB_SYSTEM=\"" + SUBSYSTEM + "\" ");
     sb.append("REGION=\"" + REGION + "\" ");
     sb.append("SYSTEM=\"" + SYSTEM + "\" ");
     sb.append("GROUP_NAME=\"" + GROUPNAME + "\" ");
-    sb.append("ID=\"" + ID + "\" ");
     sb.append("PHASE=\"" + PHASE + "\" ");
     sb.append("NODE_NAMES=\"" + NODE_NAMES + "\" ");
     sb.append("STATUS=\"" + STATUS + "\" ");
