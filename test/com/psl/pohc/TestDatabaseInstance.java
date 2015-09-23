@@ -104,5 +104,13 @@ public class TestDatabaseInstance {
     assertTrue(x.length == 2);
     assertTrue(x[0].equals("Hello World"));
     assertTrue(x[1].equals("Good day!"));
+    
+    PohcDefinition z = new PohcDefinition(
+        "ID", "SUBSYSTEM", "REGION", "SYSTEM", "GROUPNAME",
+        "PHASE", 
+        "CELL<1>\nCELL<2>\nCELL<3>",
+        "STATUS", "DOMAIN", "OUTAGE_START", "OUTAGE_END");
+    ArrayList<PohcDefinition> l = POHC_VIEW.parse(z);
+    assertTrue(l.size() == 3);
   }
 }
