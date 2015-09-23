@@ -1,5 +1,7 @@
 package com.psl.pohc;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -53,50 +55,54 @@ public class TestDatabaseInstance {
   }
   
   @Test public void testDatabaseInstanceCreation() throws Exception {
-    assert(DBI.isActive());
+    assertTrue(DBI.isActive());
   }
   
   @Test public void testPohc() throws Exception {
-    assert(POHC.isActive());
+    assertTrue(POHC.isActive());
     
     ArrayList<PohcDefinition> x = POHC.getPohcRecords(0, 0);
-    assert(x.size() < 0);
+    assertTrue(x.size() > 0);
     
-    assert(x.get(0).OUTAGE_START.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
-    assert(x.get(0).OUTAGE_END.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
+    assertTrue(x.get(0).OUTAGE_START.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
+    assertTrue(x.get(0).OUTAGE_END.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
     
     x = POHC.getPohcRecords(1, 1);
-    assert(x.size() == 1);
+    assertTrue(x.size() == 1);
   }
   
   @Test public void testPohcArchive() throws Exception {
     ArrayList<PohcDefinition> x = POHC.getPohcRecords(0, 0);
-    assert(x.size() < 0);
+    assertTrue(x.size() > 0);
     
     PohcDefinition df = x.get(0);
     boolean found = 
         POHC_ARCHIVE.checkIfExist(df.ID,df.OUTAGE_START, df.OUTAGE_END);
-    assert(!found);
+    assertFalse(found);
     
     long timestamp = new Date().getTime();
     boolean status = POHC_ARCHIVE.insert(timestamp, df);
-    assert(!status);
+    assertFalse(status);
     
     df.setType(PohcDefinition.Type.INSERT);
     assert(df.getType().equals(PohcDefinition.Type.INSERT));
     
     status = POHC_ARCHIVE.insert(timestamp, df);
-    assert(status);
+    assertTrue(status);
     
     status = POHC_ARCHIVE.commit();
-    assert(status);
+    assertTrue(status);
   }
   
   @Test public void testPohcView() throws Exception {
     String[] x = POHC_VIEW.explode("Hello World\nGood day!");
-    assert(x.length == 2);
+    assertTrue(x.length == 2);
+    assertTrue(x[0].equals("Hello World"));
+    assertTrue(x[1].equals("Good day!"));
     
     x = POHC_VIEW.explode("Hello World\r\nGood day!");
-    assert(x.length == 2);
+    assertTrue(x.length == 2);
+    assertTrue(x[0].equals("Hello World"));
+    assertTrue(x[1].equals("Good day!"));
   }
 }
