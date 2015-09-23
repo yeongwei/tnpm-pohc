@@ -126,4 +126,7 @@ CREATE TABLE POHC_ARCHIVE (
   * **START** `free memory: 15,325 allocated memory: 15,872 max memory: 1,013,632 total free memory: 1,013,085`
   * **END** `free memory: 97,191 allocated memory: 1,013,632 max memory: 1,013,632 total free memory: 97,191`
 
-### ???
+### Entity Map (Wireless)
+
+1. **Proposal** DOMAIN,VENDOR,NETWORK_OBJECT,TABLE,KEYCOLUMN,DOMAINID
+2. ?????
