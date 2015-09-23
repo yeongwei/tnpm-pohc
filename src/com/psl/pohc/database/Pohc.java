@@ -70,11 +70,11 @@ public class Pohc extends DatabaseInstance {
     Date outageEnd = rs.getDate("OUTAGE_END");
     
     return new PohcDefinition(
+        rs.getString("ID"),
         rs.getString("SUBSYSTEM"),
         rs.getString("REGION"),
         rs.getString("SYSTEM"),
         rs.getString("GROUPNAME"),
-        rs.getString("ID"),
         rs.getString("PHASE"),
         rs.getString("NODE_NAMES"),
         rs.getString("STATUS"),
