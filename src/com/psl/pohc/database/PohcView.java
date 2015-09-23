@@ -1,5 +1,6 @@
 package com.psl.pohc.database;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.psl.pohc.model.PohcDefinition;
@@ -20,6 +21,20 @@ public class PohcView extends DatabaseInstance {
   
   public void insert(PohcDefinition pohcDefinition) {
     
+  }
+  
+  public ArrayList<PohcDefinition> parse(PohcDefinition pohcDefinition) {
+    ArrayList<PohcDefinition> x = new ArrayList<PohcDefinition>();
+    String[] exploded = explode(pohcDefinition.NODE_NAMES);
+    for (String y : exploded) {
+      x.add(
+          new PohcDefinition(
+              pohcDefinition.ID, pohcDefinition.SUBSYSTEM, pohcDefinition.REGION,
+              pohcDefinition.SYSTEM, pohcDefinition.GROUPNAME, pohcDefinition.PHASE,
+              y, pohcDefinition.STATUS, pohcDefinition.DOMAIN, pohcDefinition.OUTAGE_START,
+              pohcDefinition.OUTAGE_END));
+    }
+    return x;
   }
   
   public String[] explode(String value) {
