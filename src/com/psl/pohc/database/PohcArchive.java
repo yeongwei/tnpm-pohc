@@ -1,5 +1,7 @@
 package com.psl.pohc.database;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Logger;
@@ -18,27 +20,31 @@ public class PohcArchive extends DatabaseInstance {
     LOGGER.info("Object has initialized successfully.");
   }
   
-  public boolean checkIfExist(String id, String outageStart, String outageEnd) {
+  public boolean checkIfExist(String id, Date outageStart, Date outageEnd) {
     boolean exist = false;
     
     StringBuffer sql = new StringBuffer();
     sql
       .append("SELECT ROWNUM RNUM FROM ").append(POHC_ARCHIVE_TABLE_FQN).append(" ")
       .append("WHERE ")
-      .append("ID = '").append(id).append("' ")
+      .append("ID = ?").append(" ")
       .append("AND ")
-      .append("OUTAGE_START = TO_DATE('").append(outageStart).append("', '").append(DATE_FORMAT).append("') ")
+      .append("OUTAGE_START = ?").append(" ")
       .append("AND ")
-      .append("OUTAGE_END = TO_DATE('").append(outageEnd).append("', '").append(DATE_FORMAT).append("')");
+      .append("OUTAGE_END = ?");
     
-    Statement statement;
+    PreparedStatement preparedStatement;
     ResultSet resultSet;
     int recordCount = 0;
     
     try {
-      statement = this.connection.createStatement();
+      preparedStatement = this.connection.prepareStatement(sql.toString());
+      preparedStatement.setString(1, id);
+      preparedStatement.setDate(2, outageStart);
+      preparedStatement.setDate(3, outageEnd);
+      
       LOGGER.info(String.format("About to execute SQL - %s", sql.toString()));
-      resultSet = statement.executeQuery(sql.toString());
+      resultSet = preparedStatement.executeQuery();
       
       while (resultSet.next()) {
         recordCount += 1;
@@ -48,6 +54,7 @@ public class PohcArchive extends DatabaseInstance {
     }
     
     if (recordCount > 0) {
+      LOGGER.info("Found records.");
       exist = true;
     }
     
