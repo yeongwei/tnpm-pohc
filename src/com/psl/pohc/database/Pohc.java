@@ -63,12 +63,7 @@ public class Pohc extends DatabaseInstance {
     return x;
   }
   
-  public PohcDefinition parsePohcRecord(ResultSet rs) throws Exception {
-    
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    Date outageStart = rs.getDate("OUTAGE_START");
-    Date outageEnd = rs.getDate("OUTAGE_END");
-    
+  public PohcDefinition parsePohcRecord(ResultSet rs) throws Exception {    
     return new PohcDefinition(
         rs.getString("ID"),
         rs.getString("SUBSYSTEM"),
@@ -79,8 +74,8 @@ public class Pohc extends DatabaseInstance {
         rs.getString("NODE_NAMES"),
         rs.getString("STATUS"),
         rs.getString("DOMAIN"),
-        sdf.format(outageStart),
-        sdf.format(outageEnd)
+        rs.getDate("OUTAGE_START"),
+        rs.getDate("OUTAGE_END")
         );
   }
 }
