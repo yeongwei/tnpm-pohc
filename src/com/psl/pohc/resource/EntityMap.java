@@ -32,7 +32,6 @@ public class EntityMap {
       String line;
       ArrayList<String> content = new ArrayList<String>();
       while ((line = inputBufferedReader.readLine()) != null) {
-        LOGGER.info(line);
         content.add(line);
       }
       
