@@ -9,37 +9,48 @@ public class ConfigurationMap {
   private final static String CONFIGURATION_PROPERTY = "configuration.file";
   private final Logger LOGGER = Logger.getLogger(ConfigurationMap.class.getName());
   private Properties CONFIGURATION;
+  private boolean hasError = false;
 
-  public ConfigurationMap() throws Exception {
+  public ConfigurationMap() {
     this(System.getProperty(CONFIGURATION_PROPERTY));
   }
 
-  public ConfigurationMap(String configurationFileName) throws Exception {
-    LOGGER.finest(String.format("About to process %s.", configurationFileName));
-    File configurationFile = new File(configurationFileName);
-    FileInputStream fileInputStream = new FileInputStream(configurationFile);
+  public ConfigurationMap(String configurationFileName) {
+    try {
+      LOGGER.info(String.format("About to process %s.", configurationFileName));
+      File configurationFile = new File(configurationFileName);
+      FileInputStream fileInputStream = new FileInputStream(configurationFile);
 
-    CONFIGURATION = new Properties();
-    CONFIGURATION.load(fileInputStream);
+      CONFIGURATION = new Properties();
+      CONFIGURATION.load(fileInputStream);
 
-    for (Key k : Key.values()) {
-      LOGGER.finest(String.format("Attempt to validate configuration with %s.", k.getName()));
-      if (CONFIGURATION.contains(k)) {
-        if (k.equals(Key.TNPM_INSTANCE)) {
-          if (!(CONFIGURATION.get(k.getName()).toString().equals("wireless") ||
-              CONFIGURATION.get(k.getName()).toString().equals("wireline"))) {
-            LOGGER.finest("tnpm.instance only expect value either wireless or wireline.");
-            throw new Exception(k.getMessage());
+      for (Key k : Key.values()) {
+        LOGGER.info(String.format("Attempt to validate configuration with %s.", k.getName()));
+        if (CONFIGURATION.containsKey(k.getName())) {
+          if (k.equals(Key.TNPM_INSTANCE)) {
+            if (!(CONFIGURATION.get(k.getName()).toString().equals("wireless") ||
+                CONFIGURATION.get(k.getName()).toString().equals("wireline"))) {
+              LOGGER.info("tnpm.instance only expect value either wireless or wireline.");
+              throw new Exception(k.getMessage());
+            }
           }
+        } else {
+          LOGGER.info(String.format("%s is not found in configuration.", k.getName()));
+          throw new Exception(k.getMessage());
         }
-      } else {
-        LOGGER.finest(String.format("%s is not found in configuration.", k.getName()));
-        throw new Exception(k.getMessage());
-      }
+      } 
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      LOGGER.severe(ex.getMessage());
+      hasError = true;
     }
   }
   
-  public String get(String key) throws Exception {
+  public boolean hasError() {
+    return hasError;
+  }
+  
+  public String get(String key) {
     if (CONFIGURATION.get(key) == null) {
       return null;
     } else {
@@ -48,7 +59,7 @@ public class ConfigurationMap {
   }
 
   protected enum Key {
-    POHC_HOST, POHC_DB_PORT, POHC_DB_USER, POHC_DB_PASSWORD, POHC_DB_SCHEMA, TNPM_HOST, TNPM_DB_PORT, TNPM_DB_USER, TNPM_DB_PASSWORD, TNPM_DB_SCHEMA, TNPM_INSTANCE, CONFIG_DELIMITER;
+    POHC_HOST, POHC_DB_PORT, POHC_DB_USER, POHC_DB_PASSWORD, POHC_DB_SCHEMA, TNPM_HOST, TNPM_DB_PORT, TNPM_DB_USER, TNPM_DB_PASSWORD, TNPM_DB_SCHEMA, TNPM_INSTANCE;
 
     String getName() {
       switch (this) {
