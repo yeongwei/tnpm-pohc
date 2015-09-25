@@ -1,4 +1,4 @@
-package com.psl.pohc;
+package com.psl.pohc.model;
 
 import java.util.ArrayList;
 
