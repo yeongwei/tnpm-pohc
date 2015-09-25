@@ -1,4 +1,4 @@
-package com.psl.pohc;
+package com.psl.pohc.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

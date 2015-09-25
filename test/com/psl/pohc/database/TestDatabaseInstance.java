@@ -1,4 +1,4 @@
-package com.psl.pohc;
+package com.psl.pohc.database;
 
 import static org.junit.Assert.*;
 
@@ -115,5 +115,11 @@ public class TestDatabaseInstance {
         new java.sql.Date(calendar.getTimeInMillis()));
     ArrayList<PohcDefinition> l = POHC_VIEW.parse(z);
     assertTrue(l.size() == 3);
+    
+    boolean status = POHC_VIEW.insert(z);
+    assertTrue(status);
+    
+    status = POHC_VIEW.commit();
+    assertTrue(status);
   }
 }
