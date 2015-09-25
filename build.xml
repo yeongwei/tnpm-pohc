@@ -1,0 +1,7 @@
+<project name="pohc" default="main" basedir=".">
+	<property name="src.dir" location="src" />
+	<property name="bin.dir" location="bin" />
+	<property name="dist.dir" location="dist" />
+	<target name="clean" />
+	<target name="main" depends="clean" />
+</project>
