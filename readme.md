@@ -40,7 +40,21 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
 ### Pseudo Implementation
 
 * On every invocation instance
-  * KNOWLEDGE initialization (E.g. TNPM Inventory)
+  * `KNOWLEDGE` initialization
+      * Configuration properties (E.g configuration.properties)
+          * pohc.host
+          * pohc.db.port
+          * pohc.db.user
+          * pohc.db.password
+          * pohc.db.schema
+          * tnpm.host
+          * tnpm.db.port
+          * tnpm.db.user
+          * tnpm.db.password
+          * tnpm.db.schema
+          * tnpm.instance=wireless or tnpm.instance=wireline
+          * config.delimiter=\\r?\\n 
+      * ???
   * Determine iteration (E.g. totalNumberOfRows / limit + 1)
   * For each iteration
       * Select all from `POHC` limit by x offset by y
