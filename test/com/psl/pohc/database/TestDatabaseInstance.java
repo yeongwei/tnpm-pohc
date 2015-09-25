@@ -59,6 +59,7 @@ public class TestDatabaseInstance {
   }
   
   @Test public void testPohc() throws Exception {
+    assertTrue(POHC.getTotaNumberOfRows() >= 0);
     assertTrue(POHC.isActive());
     
     ArrayList<PohcDefinition> x = POHC.getPohcRecords(0, 0);

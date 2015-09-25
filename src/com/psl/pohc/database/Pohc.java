@@ -1,9 +1,7 @@
 package com.psl.pohc.database;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -11,8 +9,8 @@ import com.psl.pohc.model.PohcDefinition;
 
 public class Pohc extends DatabaseInstance {
 
-  private final static String POHC_TABLE_FQN = "SMDBUSER3.UFM_OUTAGE";
   private final Logger LOGGER = Logger.getLogger(Pohc.class.getName());
+  private String POHC_TABLE_FQN = "SMDBUSER3.UFM_OUTAGE";
   
   public Pohc(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
@@ -77,5 +75,26 @@ public class Pohc extends DatabaseInstance {
         rs.getDate("OUTAGE_START"),
         rs.getDate("OUTAGE_END")
         );
+  }
+  
+  public int getTotaNumberOfRows() {
+    StringBuffer sql = new StringBuffer();
+    sql
+      .append("SELECT MAX(RNUM) as MAX_RNUM FROM (")
+      .append("SELECT ROWNUM RNUM FROM ").append(POHC_TABLE_FQN)
+      .append(") tbl");
+    
+    Statement statement;
+    ResultSet resultSet;
+    
+    try {
+      statement = connection.createStatement();
+      resultSet = statement.executeQuery(sql.toString());
+      resultSet.next();
+      return resultSet.getInt("MAX_RNUM");
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      return 0;
+    }
   }
 }
