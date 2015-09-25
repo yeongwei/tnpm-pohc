@@ -8,7 +8,7 @@ public class PohcDefinition {
   public final String GROUPNAME;
   public final String ID;
   public final String PHASE;
-  public final String NODE_NAMES;
+  public final String NODE_NAMES; // Use for delimited and non delimited values
   public final String STATUS;
   public final String DOMAIN;
   public final String OUTAGE_START;
