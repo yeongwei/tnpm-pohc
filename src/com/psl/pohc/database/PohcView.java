@@ -61,7 +61,6 @@ public class PohcView extends DatabaseInstance {
       return false;
     }
     
-    int[] executedResult;
     try {
       LOGGER.info("Executing prepared statement");
       executedResult = preparedStatement.executeBatch(); 
