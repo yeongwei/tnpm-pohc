@@ -1,5 +1,7 @@
 package com.psl.pohc.model;
 
+import java.sql.Date;
+
 public class PohcDefinition {
 
   public final String SUBSYSTEM;
@@ -11,15 +13,15 @@ public class PohcDefinition {
   public final String NODE_NAMES; // Use for delimited and non delimited values
   public final String STATUS;
   public final String DOMAIN;
-  public final String OUTAGE_START;
-  public final String OUTAGE_END;
+  public final Date OUTAGE_START;
+  public final Date OUTAGE_END;
 
   private Type TYPE = Type.NONE;
 
   public PohcDefinition(String id, 
       String subSystem, String region, String system,
       String groupName, String phase, String nodeNames,
-      String status, String domain, String outageStart, String outageEnd) {
+      String status, String domain, Date outageStart, Date outageEnd) {
 
     ID = id;
     SUBSYSTEM = subSystem;
