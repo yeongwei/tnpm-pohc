@@ -22,7 +22,9 @@ public class TestMemoryUsage {
       x.add(
           new PohcDefinition(
               random, random, random, random, random, random, random, random,
-              random, random, random));
+              random, 
+              new java.sql.Date(1421893256000L), 
+              new java.sql.Date(1421893256000L)));
     }
     
     printMemoryUsage();

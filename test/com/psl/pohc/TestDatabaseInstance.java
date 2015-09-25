@@ -3,7 +3,7 @@ package com.psl.pohc;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import org.junit.Test;
 
@@ -64,9 +64,6 @@ public class TestDatabaseInstance {
     ArrayList<PohcDefinition> x = POHC.getPohcRecords(0, 0);
     assertTrue(x.size() > 0);
     
-    assertTrue(x.get(0).OUTAGE_START.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
-    assertTrue(x.get(0).OUTAGE_END.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d"));
-    
     x = POHC.getPohcRecords(1, 1);
     assertTrue(x.size() == 1);
   }
@@ -80,7 +77,7 @@ public class TestDatabaseInstance {
         POHC_ARCHIVE.checkIfExist(df.ID,df.OUTAGE_START, df.OUTAGE_END);
     assertFalse(found);
     
-    long timestamp = new Date().getTime();
+    long timestamp = new java.util.Date().getTime();
     boolean status = POHC_ARCHIVE.insert(timestamp, df);
     assertFalse(status);
     
@@ -105,11 +102,17 @@ public class TestDatabaseInstance {
     assertTrue(x[0].equals("Hello World"));
     assertTrue(x[1].equals("Good day!"));
     
+    java.util.Date date = new java.util.Date();
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    
     PohcDefinition z = new PohcDefinition(
         "ID", "SUBSYSTEM", "REGION", "SYSTEM", "GROUPNAME",
         "PHASE", 
         "CELL<1>\nCELL<2>\nCELL<3>",
-        "STATUS", "DOMAIN", "OUTAGE_START", "OUTAGE_END");
+        "STATUS", "DOMAIN", 
+        new java.sql.Date(calendar.getTimeInMillis()), 
+        new java.sql.Date(calendar.getTimeInMillis()));
     ArrayList<PohcDefinition> l = POHC_VIEW.parse(z);
     assertTrue(l.size() == 3);
   }
