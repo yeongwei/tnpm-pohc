@@ -14,6 +14,11 @@ public class PohcArchive extends DatabaseInstance {
   private final static String DATE_FORMAT = "yyyy-mm-dd";
   private final Logger LOGGER = Logger.getLogger(PohcArchive.class.getName()); 
   
+  public PohcArchive(String host, String port, String sid,
+      String user, String password) throws Exception {
+    this("oracle.jdbc.driver.OracleDriver", host, port, sid, user, password);
+  }
+  
   public PohcArchive(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
     super(driverClass, host, port, sid, user, password);
