@@ -12,6 +12,11 @@ public class Pohc extends DatabaseInstance {
   private final Logger LOGGER = Logger.getLogger(Pohc.class.getName());
   private String POHC_TABLE_FQN = "SMDBUSER3.UFM_OUTAGE";
   
+  public Pohc(String host, String port, String sid,
+      String user, String password) throws Exception {
+    this("oracle.jdbc.driver.OracleDriver", host, port, sid, user, password);
+  }
+  
   public Pohc(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
     super(driverClass, host, port, sid, user, password);
