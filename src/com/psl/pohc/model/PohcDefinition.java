@@ -17,6 +17,7 @@ public class PohcDefinition {
   public final Date OUTAGE_END;
 
   private Type TYPE = Type.NONE;
+  private Inventory INVENTORY = Inventory.NONE;
 
   public PohcDefinition(String id, 
       String subSystem, String region, String system,
@@ -51,6 +52,8 @@ public class PohcDefinition {
     sb.append("DOMAIN=\"" + DOMAIN + "\" ");
     sb.append("OUTAGE_START=\"" + OUTAGE_START + "\" ");
     sb.append("OUTAGE_END=\"" + OUTAGE_END + "\" ");
+    sb.append("TYPE=\"" + TYPE + "\" ");
+    sb.append("INVENTORY=\"" + INVENTORY + "\" ");
 
     return sb.toString();
   }
@@ -63,7 +66,15 @@ public class PohcDefinition {
   public Type getType() {
     return TYPE;
   }
+  
+  public boolean setInventory(Inventory inventory) {
+    INVENTORY = inventory;
+    return true;
+  }
 
+  public Inventory getInventory() {
+    return INVENTORY;
+  }
   public enum Type {
     INSERT, UPDATE, NONE;
 
@@ -79,5 +90,9 @@ public class PohcDefinition {
         return "X";
       }
     }
+  }
+  
+  public enum Inventory {
+    MATCH, NO_MATCH, NONE;
   }
 }
