@@ -55,7 +55,7 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
           * tnpm.instance=wireless or tnpm.instance=wireline
           * config.delimiter=\\r?\\n 
       * ???
-  * Determine iteration (E.g. totalNumberOfRows / limit + 1)
+  * Determine number of iteration (E.g. totalNumberOfRows / limit + 1) from `POHC`
   * For each iteration
       * Select all from `POHC` limit by x offset by y
       * Convert all into `PohcDefinition`
