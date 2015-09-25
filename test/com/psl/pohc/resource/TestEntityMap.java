@@ -1,24 +1,28 @@
 package com.psl.pohc.resource;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.junit.Test;
 
-import com.psl.pohc.resource.EntityMap;
-
 public class TestEntityMap {
-  
-  EntityMap ENTITY_MAP;
+  private static String ENTITY_FILE_NAME = 
+      "D:\\development\\_assignment\\pohc\\src\\EntityMap.csv";
+  private EntityMap ENTITY_MAP;
   
   public TestEntityMap() {
-    ENTITY_MAP = new EntityMap();
+    ENTITY_MAP = new EntityMap(ENTITY_FILE_NAME);
   }
   
   @Test public void testEntityMapCreation() {
-    assert(ENTITY_MAP != null);
+    assertTrue(ENTITY_MAP != null);
   }
   
   @Test public void testEntityMapHasMobileCore() {
-    assert(ENTITY_MAP.hasEntity("mobileCore"));
-    assert(ENTITY_MAP.hasEntity("Mobilecore"));
-    assert(ENTITY_MAP.getEntitiesFor("mobileCore").size() > 0);
+    assertTrue(ENTITY_MAP.hasEntity("mobileCore"));
+    assertTrue(ENTITY_MAP.hasEntity("Mobilecore"));
+    ArrayList<Entity> x = ENTITY_MAP.getEntitiesFor("mobileCore");
+    assertTrue(x.size() > 0);
   }
 }

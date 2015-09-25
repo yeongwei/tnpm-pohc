@@ -1,37 +1,38 @@
 package com.psl.pohc.resource;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class EntityMap {
   
-  private final static String ENTITY_MAP_FILE = "EntityMap.csv"; 
+  private final static String ENTITY_MAP_PROPERTY = "configuration.entity.map"; 
       
   private static HashMap<String, ArrayList<Entity>> ENTITY_MAP = 
       new HashMap<String, ArrayList<Entity>>(); 
   
+  private final Logger LOGGER = Logger.getLogger(EntityMap.class.getName());
+  
   public EntityMap() {
-    this(ENTITY_MAP_FILE);
+    this(System.getProperty(ENTITY_MAP_PROPERTY));
   }
   
-  public EntityMap(String entityMapFile) {
-    InputStream inputStream = EntityMap.class.getResourceAsStream(entityMapFile);
-    
+  public EntityMap(String entityMapFileName) {
     try {
-      if (inputStream == null) {
-        throw new Exception(ENTITY_MAP_FILE + " cannot be read.");
-      }
-      
-      InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+      File entityFile = new File(entityMapFileName);
+      FileInputStream fileInputStream = new FileInputStream(entityFile);
+      InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
       BufferedReader inputBufferedReader = new BufferedReader(inputStreamReader);
       
       String line;
       ArrayList<String> content = new ArrayList<String>();
       while ((line = inputBufferedReader.readLine()) != null) {
+        LOGGER.info(line);
         content.add(line);
       }
       
@@ -62,11 +63,6 @@ public class EntityMap {
     } catch (Exception ex) {
       ex.printStackTrace();
     } finally {
-      try {
-        inputStream.close();
-      } catch (IOException ex) {
-        ex.printStackTrace();
-      }
     }
   }
   
@@ -78,7 +74,7 @@ public class EntityMap {
   public ArrayList<Entity> getEntitiesFor(String domain) {
     String domainUpperCase = domain.toUpperCase();
     if (ENTITY_MAP.containsKey(domainUpperCase)) {
-      return ENTITY_MAP.get(domain);
+      return ENTITY_MAP.get(domainUpperCase);
     } else {
       return new ArrayList<Entity>();
     }
