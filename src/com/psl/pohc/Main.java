@@ -1,5 +1,6 @@
 package com.psl.pohc;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -108,5 +109,14 @@ public class Main {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(new Date());
     return calendar.getTimeInMillis();
+  }
+  
+  private String formatTimeStamp(long timestamp) {
+    return formatTimeStamp(timestamp, "yyyy-mm-dd HH:MM:ss");
+  }
+  
+  private String formatTimeStamp(long timestamp, String format) {
+    SimpleDateFormat sdf = new SimpleDateFormat(format);
+    return sdf.format(new Date(timestamp));
   }
 }
