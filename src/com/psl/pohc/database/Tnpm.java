@@ -29,7 +29,7 @@ public abstract class Tnpm  extends DatabaseInstance {
   void reloadInventory() {
   }
 
-  boolean checkIfExist(PohcDefinition pohcDefinition) {
-    return true;
+  boolean checkIfExist(PohcDefinition pohcDefinition) {    
+    return INVENTORY_STORE.contains(pohcDefinition.NODE_NAMES);
   }
 }

@@ -3,6 +3,7 @@ package com.psl.pohc.database;
 import java.util.logging.Logger;
 
 import com.psl.pohc.model.PohcDefinition;
+import com.psl.pohc.resource.EntityMap;
 
 public class Inventory {
 
@@ -20,14 +21,23 @@ public class Inventory {
     } else {
       throw new Exception("Undefined instance.");
     }
-    TNPM.getInventory();
     LOGGER.info("Object has initialized.");
   }
 
   public PohcDefinition lookup(PohcDefinition pohcDefinition) {
     if (TNPM.checkIfExist(pohcDefinition)) {
       pohcDefinition.setInventory(PohcDefinition.Inventory.MATCH);
+    } else {
+      pohcDefinition.setInventory(PohcDefinition.Inventory.NO_MATCH);
     }
     return pohcDefinition;
+  }
+
+  public boolean setEntityMap(EntityMap entityMap) {
+    return TNPM.setEntityMap(entityMap);
+  }
+  
+  public boolean init() {
+    return TNPM.getInventory();
   }
 }

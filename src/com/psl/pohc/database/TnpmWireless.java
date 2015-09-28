@@ -1,6 +1,7 @@
 package com.psl.pohc.database;
 
 import java.sql.ResultSet;
+import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -32,6 +33,18 @@ public class TnpmWireless extends Tnpm {
           while (resultSet.next()) {
             INVENTORY_STORE.add(resultSet.getString(e.KEY_COLUMN_NAME));
           }
+        } catch (SQLSyntaxErrorException ex) {
+          switch (ex.getErrorCode()) {
+          case 942:
+            LOGGER.warning(String.format("%s does not exit.", e.TABLE_NAME));
+            break;
+          default:
+            LOGGER
+                .severe(String.format(
+                    "Database vendor error code %s not defined.",
+                    ex.getErrorCode()));
+            break;
+          }
         } catch (Exception ex) {
           ex.printStackTrace();
         }
@@ -42,7 +55,7 @@ public class TnpmWireless extends Tnpm {
 
     this.LOGGER.info(String.format("Found %d inventory object(s).",
         INVENTORY_STORE.size()));
-    
+
     return true;
   }
 }
