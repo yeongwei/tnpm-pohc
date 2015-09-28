@@ -22,7 +22,7 @@ public class Entity {
         .append(DOMAIN_NAME).append(" ");
     sb.append(Column.NETWORK_OBJECT.name()).append("=")
         .append(NETWORK_OBJECT).append(" ");
-    sb.append(Column.NC_TABLE_NAME.name()).append("=")
+    sb.append(Column.TABLE_NAME.name()).append("=")
         .append(TABLE_NAME).append(" ");
     sb.append(Column.KEY_COLUMN_NAME.name()).append("=")
         .append(KEY_COLUMN_NAME).append(" ");
@@ -31,7 +31,7 @@ public class Entity {
   }
   
   public enum Column {
-    DOMAIN_NAME, NETWORK_OBJECT, NC_TABLE_NAME, KEY_COLUMN_NAME, DOMAIN_ID;
+    DOMAIN_NAME, NETWORK_OBJECT, TABLE_NAME, KEY_COLUMN_NAME, DOMAIN_ID;
 
     public int getIndex() {
       switch (this) {
@@ -39,7 +39,7 @@ public class Entity {
         return 0;
       case NETWORK_OBJECT:
         return 1;
-      case NC_TABLE_NAME:
+      case TABLE_NAME:
         return 2;
       case KEY_COLUMN_NAME:
         return 3;
