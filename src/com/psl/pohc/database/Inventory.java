@@ -15,7 +15,7 @@ public class Inventory {
     if (instance.equals("wireless")) {
       TNPM = new TnpmWireless("oracle.jdbc.driver.OracleDriver", host, port,
           schema, user, password);
-    } else if (instance.equals("wireless")) {
+    } else if (instance.equals("wireline")) {
       TNPM = new TnpmWireline("oracle.jdbc.driver.OracleDriver", host, port,
           schema, user, password);
     } else {
