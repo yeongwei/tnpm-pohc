@@ -69,7 +69,7 @@ public class Main {
         }
       }
       
-      long RECORDED_TIMESTAMP = getTimestamp();
+      long RECORDED_TIMESTAMP = getCurrentTimestamp();
       LOGGER.info(String.format("Using %d as recorded timestamp.", RECORDED_TIMESTAMP));
       
       LOGGER.info("About to insert into POHC_ARCHIVE.");
@@ -111,13 +111,7 @@ public class Main {
     }
   }
   
-  private void dumpPohcDefinition (ArrayList<PohcDefinition> pohcDefinitions) {
-    for (PohcDefinition df : pohcDefinitions) {
-      LOGGER.info(df.asNameValuePair());
-    }
-  }
-  
-  private long getTimestamp() {
+  private long getCurrentTimestamp() {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(new Date());
     return calendar.getTimeInMillis();
