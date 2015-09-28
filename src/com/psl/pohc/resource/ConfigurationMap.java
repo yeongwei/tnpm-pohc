@@ -68,11 +68,11 @@ public class ConfigurationMap {
         CONFIGURATION.put(Key.valueOf(d.name()).getName(), d.getValue());
       }
 
-      LOGGER.info(String.format("About to display the list of configurations.",
+      LOGGER.finest(String.format("About to display the list of configurations.",
           ""));
 
       for (Entry<Object, Object> x : CONFIGURATION.entrySet()) {
-        LOGGER.info(String.format("%s: %s", x.getKey().toString(), x.getValue()
+        LOGGER.finest(String.format("%s: %s", x.getKey().toString(), x.getValue()
             .toString()));
       }
     } catch (Exception ex) {
