@@ -2,6 +2,7 @@ package com.psl.pohc.resource;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -24,37 +25,42 @@ public class ConfigurationMap {
       CONFIGURATION = new Properties();
       CONFIGURATION.load(fileInputStream);
 
+      // Objects in Key have to exist in configuration file
+      // depending on needsValidation
       for (Key k : Key.values()) {
         if (!k.needsValidation()) {
-          LOGGER
-              .info(String.format("Skipping validation for %s.", k.getName()));
+          LOGGER.finest(String.format("Skipping validation for %s.",
+              k.getName()));
           continue;
         }
 
-        LOGGER.info(String.format("Attempt to validate configuration with %s.",
-            k.getName()));
+        LOGGER.finest(String.format(
+            "Attempt to validate configuration with %s.", k.getName()));
         if (CONFIGURATION.containsKey(k.getName())) {
+          // special handler for TNPM_INSTANCE
           if (k.equals(Key.TNPM_INSTANCE)) {
             if (!(CONFIGURATION.get(k.getName()).toString().equals("wireless") || CONFIGURATION
                 .get(k.getName()).toString().equals("wireline"))) {
               LOGGER
-                  .info("tnpm.instance only expect value either wireless or wireline.");
+                  .severe("tnpm.instance expects either wireless or wireline as value.");
               throw new Exception(k.getMessage());
             }
           }
         } else {
-          LOGGER.info(String.format("%s is not found in configuration.",
+          LOGGER.severe(String.format("%s is not found in configuration file.",
               k.getName()));
           throw new Exception(k.getMessage());
         }
       }
 
+      // populate default values
       for (Default d : Default.values()) {
-        LOGGER.info(String.format("About to evaluate default value for %s.",
+        LOGGER.finest(String.format("About to evaluate default value for %s.",
             Key.valueOf(d.name()).getName()));
 
+        // if already in CONFIGURATION then do not get default values
         if (CONFIGURATION.containsKey(Key.valueOf(d.name()).getName())) {
-          LOGGER.info(String.format("Skipping default value for %s.", Key
+          LOGGER.finest(String.format("Skipping default value for %s.", Key
               .valueOf(d.name()).getName()));
           continue;
         }
@@ -62,8 +68,12 @@ public class ConfigurationMap {
         CONFIGURATION.put(Key.valueOf(d.name()).getName(), d.getValue());
       }
 
-      for (Object x : CONFIGURATION.values()) {
-        LOGGER.info("DEBUG" + x.toString());
+      LOGGER.info(String.format("About to display the list of configurations.",
+          ""));
+
+      for (Entry<Object, Object> x : CONFIGURATION.entrySet()) {
+        LOGGER.info(String.format("%s: %s", x.getKey().toString(), x.getValue()
+            .toString()));
       }
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -150,6 +160,7 @@ public class ConfigurationMap {
       }
     }
 
+    // include here if Objects needs to be in configuration file
     boolean needsValidation() {
       switch (this) {
       case POHC_HOST:
