@@ -141,3 +141,7 @@ CREATE TABLE POHC_ARCHIVE (
 #### Columns
 
 `DOMAIN_NAME,NETWORK_OBJECT,NC_TABLE_NAME,KEY_COLUMN_NAME,DOMAIN_ID`
+
+### Future Work
+
+1. Make solution generic to various database interface. Currently there are a few parts of the program that expects Oracle behavior this should be made more generic.
