@@ -7,11 +7,10 @@ import org.junit.Test;
 public class TestConfigurationMap {
   private static final String configurationFile = 
       "D:\\development\\_assignment\\pohc\\test\\configuration.properties";
-  private final ConfigurationMap CONFIGURATION_MAP = 
-      new ConfigurationMap(configurationFile);
+  private final ConfigurationMap CONFIGURATION_MAP;
   
-  @Test public void testHasError() {
-    assertFalse(CONFIGURATION_MAP.hasError());
+  public TestConfigurationMap() throws Exception {
+    CONFIGURATION_MAP = new ConfigurationMap(configurationFile);
   }
   
   @Test public void testGet() {
