@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import com.psl.pohc.database.Pohc;
 import com.psl.pohc.database.PohcArchive;
 import com.psl.pohc.database.PohcView;
-import com.psl.pohc.database.Tnpm;
+import com.psl.pohc.database.Inventory;
 import com.psl.pohc.model.PohcDefinition;
 import com.psl.pohc.resource.ConfigurationMap;
 import com.psl.pohc.resource.EntityMap;
@@ -33,7 +33,7 @@ public class Main {
         CONFIGURATION_MAP.get("pohc.db.schema"),
         CONFIGURATION_MAP.get("pohc.db.user"),
         CONFIGURATION_MAP.get("pohc.db.password"));
-
+    
     PohcArchive POHC_ARCHIVE = new PohcArchive(
         CONFIGURATION_MAP.get("tnpm.host"),
         CONFIGURATION_MAP.get("tnpm.db.port"),
@@ -47,7 +47,12 @@ public class Main {
         CONFIGURATION_MAP.get("tnpm.db.user"),
         CONFIGURATION_MAP.get("tnpm.db.password"));
     
-    Tnpm TNPM = new Tnpm();
+    Inventory INVENTORY = new Inventory(CONFIGURATION_MAP.get("tnpm.instance"),
+        CONFIGURATION_MAP.get("tnpm.host"),
+        CONFIGURATION_MAP.get("tnpm.db.port"),
+        CONFIGURATION_MAP.get("tnpm.db.schema"),
+        CONFIGURATION_MAP.get("tnpm.db.user"),
+        CONFIGURATION_MAP.get("tnpm.db.password"));
 
     LOGGER.info("Finished initializing models.");
     
@@ -90,7 +95,7 @@ public class Main {
 
       LOGGER.info("About to lookup inventory.");
       for (PohcDefinition DF : EXPLODED_POHC_DEFINITIONS) {
-        TNPM.inventoryLookup(DF);
+        INVENTORY.lookup(DF);
       }
       LOGGER.info("Finished lookup inventory.");
 
