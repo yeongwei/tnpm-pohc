@@ -27,4 +27,8 @@ public class TestEntityMap {
     ArrayList<Entity> x = ENTITY_MAP.getEntitiesFor("mobileCore");
     assertTrue(x.size() > 0);
   }
+  
+  @Test public void testFlatten() {
+    assertTrue(ENTITY_MAP.flatten().size() > 0);
+  }
 }
