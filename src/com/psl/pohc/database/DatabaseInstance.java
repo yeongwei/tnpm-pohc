@@ -6,6 +6,7 @@ import java.util.Properties;
 
 public class DatabaseInstance {
   protected Connection connection;
+  protected String TABLE_FQN;
   private static boolean autoCommit = false;
   
   public DatabaseInstance (
@@ -52,6 +53,15 @@ public class DatabaseInstance {
       ex.printStackTrace();
       return false;
     }
+  }
+  
+  public String getTableName() {
+    return this.TABLE_FQN;
+  }
+  
+  public boolean setTableName(String tableName) {
+    this.TABLE_FQN = tableName;
+    return true;
   }
 }
 
