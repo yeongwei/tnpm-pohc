@@ -4,6 +4,7 @@
 	<property name="build.dir" location="build" />
 	<property name="dist.dir" location="dist" />
 	
+    <property name="jar.name" value="pohc" />
 	<property name="configuration.file" value="configuration.properties" />
 	<property name="entityMap.file" value="EntityMap.csv" />
 	
@@ -27,7 +28,7 @@
 	
 	<target name="package"
 		description="Package the compiled class files into Jar">
-		<jar destfile="${dist.dir}/pohc-${DSTAMP}.jar" basedir="${build.dir}">
+		<jar destfile="${dist.dir}/${jar.name}-${DSTAMP}.jar" basedir="${build.dir}">
 		</jar>
 		<copy file="${src.dir}/${configuration.file}" todir="${dist.dir}"/>
 		<copy file="${src.dir}/${entityMap.file}" todir="${dist.dir}"/>
