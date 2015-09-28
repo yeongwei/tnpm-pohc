@@ -58,7 +58,7 @@ public class EntityMap {
         x.add(new Entity(
             entityContent[Entity.Column.DOMAIN_NAME.getIndex()],
             entityContent[Entity.Column.NETWORK_OBJECT.getIndex()],
-            entityContent[Entity.Column.NC_TABLE_NAME.getIndex()],
+            entityContent[Entity.Column.TABLE_NAME.getIndex()],
             entityContent[Entity.Column.KEY_COLUMN_NAME.getIndex()],
             entityContent[Entity.Column.DOMAIN_ID.getIndex()]));
         // Domain Name as key will always be uppercase
