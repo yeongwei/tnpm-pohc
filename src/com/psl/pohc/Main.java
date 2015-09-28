@@ -53,6 +53,8 @@ public class Main {
         CONFIGURATION_MAP.get("tnpm.db.schema"),
         CONFIGURATION_MAP.get("tnpm.db.user"),
         CONFIGURATION_MAP.get("tnpm.db.password"));
+    INVENTORY.setEntityMap(ENTITY_MAP);
+    INVENTORY.init();
 
     LOGGER.info("Finished initializing models.");
     
