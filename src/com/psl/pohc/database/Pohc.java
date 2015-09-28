@@ -10,7 +10,6 @@ import com.psl.pohc.model.PohcDefinition;
 public class Pohc extends DatabaseInstance {
 
   private final Logger LOGGER = Logger.getLogger(Pohc.class.getName());
-  private String POHC_TABLE_FQN = "SMDBUSER3.UFM_OUTAGE";
   
   public Pohc(String host, String port, String sid,
       String user, String password) throws Exception {
@@ -20,6 +19,7 @@ public class Pohc extends DatabaseInstance {
   public Pohc(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
     super(driverClass, host, port, sid, user, password);
+    this.TABLE_FQN = "SMDBUSER3.UFM_OUTAGE";
     LOGGER.info("Object has initialized successfully.");
   }
 
@@ -32,7 +32,7 @@ public class Pohc extends DatabaseInstance {
       .append("SELECT * FROM ( ")
       .append("SELECT ")
       .append("ROWNUM RNUM, ID, SUBSYSTEM, REGION, SYSTEM, GROUPNAME, PHASE, NODE_NAMES, STATUS, DOMAIN, OUTAGE_START, OUTAGE_END ")
-      .append("FROM ").append(POHC_TABLE_FQN).append(" ")
+      .append("FROM ").append(TABLE_FQN).append(" ")
       .append(") tbl ");
       
     if (limit > 0 && offset > 0) {
@@ -45,12 +45,13 @@ public class Pohc extends DatabaseInstance {
       LOGGER.warning("Query does not have limit and offest predicates.");
     }
     
+    LOGGER.finest(String.format("About to prepare SQL - %s", sql.toString()));
+    
     Statement statement;
     ResultSet resultSet;
     
     try {
       statement = this.connection.createStatement();
-      LOGGER.info(String.format("About to execute SQL - %s", sql.toString()));
       resultSet = statement.executeQuery(sql.toString());
       
       while (resultSet.next()) {
@@ -66,7 +67,7 @@ public class Pohc extends DatabaseInstance {
     return x;
   }
   
-  public PohcDefinition parsePohcRecord(ResultSet rs) throws Exception {    
+  private PohcDefinition parsePohcRecord(ResultSet rs) throws Exception {    
     return new PohcDefinition(
         rs.getString("ID"),
         rs.getString("SUBSYSTEM"),
@@ -86,7 +87,7 @@ public class Pohc extends DatabaseInstance {
     StringBuffer sql = new StringBuffer();
     sql
       .append("SELECT MAX(RNUM) as MAX_RNUM FROM (")
-      .append("SELECT ROWNUM RNUM FROM ").append(POHC_TABLE_FQN)
+      .append("SELECT ROWNUM RNUM FROM ").append(TABLE_FQN)
       .append(") tbl");
     
     Statement statement;
