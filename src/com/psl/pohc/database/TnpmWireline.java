@@ -14,7 +14,7 @@ public class TnpmWireline extends Tnpm {
   @Override
   boolean getInventory() {
     this.INVENTORY_STORE = new ArrayList<String>();
-    String SQL = "SELECT STR_NAME FROM SE_DESC";
+    String SQL = "SELECT STR_NAME FROM SE_DESC ROWNUM = 10";
     
     Statement statement;
     ResultSet resultSet;
