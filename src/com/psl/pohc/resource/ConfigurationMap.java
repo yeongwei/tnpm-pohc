@@ -10,13 +10,12 @@ public class ConfigurationMap {
   private final Logger LOGGER = Logger.getLogger(ConfigurationMap.class
       .getName());
   private Properties CONFIGURATION;
-  private boolean hasError = false;
 
-  public ConfigurationMap() {
+  public ConfigurationMap() throws Exception {
     this(System.getProperty(CONFIGURATION_PROPERTY));
   }
 
-  public ConfigurationMap(String configurationFileName) {
+  public ConfigurationMap(String configurationFileName) throws Exception {
     try {
       LOGGER.info(String.format("About to process %s.", configurationFileName));
       File configurationFile = new File(configurationFileName);
@@ -24,14 +23,14 @@ public class ConfigurationMap {
 
       CONFIGURATION = new Properties();
       CONFIGURATION.load(fileInputStream);
-      
+
       for (Key k : Key.values()) {
         if (!k.needsValidation()) {
-          LOGGER.info(String.format("Skipping validation for %s.",
-              k.getName()));
+          LOGGER
+              .info(String.format("Skipping validation for %s.", k.getName()));
           continue;
         }
-        
+
         LOGGER.info(String.format("Attempt to validate configuration with %s.",
             k.getName()));
         if (CONFIGURATION.containsKey(k.getName())) {
@@ -49,38 +48,27 @@ public class ConfigurationMap {
           throw new Exception(k.getMessage());
         }
       }
-      
+
       for (Default d : Default.values()) {
-        LOGGER.info(
-            String.format(
-                "About to evaluate default value for %s.", 
-                Key.valueOf(d.name()).getName()));
-        
+        LOGGER.info(String.format("About to evaluate default value for %s.",
+            Key.valueOf(d.name()).getName()));
+
         if (CONFIGURATION.containsKey(Key.valueOf(d.name()).getName())) {
-          LOGGER.info(
-              String.format(
-                  "Skipping default value for %s.", 
-                  Key.valueOf(d.name()).getName()));
+          LOGGER.info(String.format("Skipping default value for %s.", Key
+              .valueOf(d.name()).getName()));
           continue;
         }
-        
-        CONFIGURATION.put(
-            Key.valueOf(d.name()).getName(), 
-            d.getValue());
+
+        CONFIGURATION.put(Key.valueOf(d.name()).getName(), d.getValue());
       }
-      
+
       for (Object x : CONFIGURATION.values()) {
         LOGGER.info("DEBUG" + x.toString());
       }
     } catch (Exception ex) {
       ex.printStackTrace();
-      LOGGER.severe(ex.getMessage());
-      hasError = true;
+      throw new Exception(ex.getMessage());
     }
-  }
-
-  public boolean hasError() {
-    return hasError;
   }
 
   public String get(String key) {
@@ -96,9 +84,7 @@ public class ConfigurationMap {
   }
 
   protected enum Key {
-    POHC_HOST, POHC_DB_PORT, POHC_DB_USER, POHC_DB_PASSWORD, POHC_DB_SCHEMA, 
-    TNPM_HOST, TNPM_DB_PORT, TNPM_DB_USER, TNPM_DB_PASSWORD, TNPM_DB_SCHEMA, TNPM_INSTANCE, 
-    CONFIG_DELIMITER, CONFIG_BATCH_SIZE, CONFIG_COMMIT;
+    POHC_HOST, POHC_DB_PORT, POHC_DB_USER, POHC_DB_PASSWORD, POHC_DB_SCHEMA, TNPM_HOST, TNPM_DB_PORT, TNPM_DB_USER, TNPM_DB_PASSWORD, TNPM_DB_SCHEMA, TNPM_INSTANCE, CONFIG_DELIMITER, CONFIG_BATCH_SIZE, CONFIG_COMMIT;
 
     String getName() {
       switch (this) {
