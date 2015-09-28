@@ -8,7 +8,6 @@ import com.psl.pohc.model.PohcDefinition;
 
 public class PohcView extends DatabaseInstance {
 
-  private final String POHC_VIEW_FQN = "POHC_VIEW";
   private final Logger LOGGER = Logger.getLogger(PohcView.class.getName());
 
   private String DELIMITER_REGEXP = "\\r?\\n";
@@ -21,6 +20,7 @@ public class PohcView extends DatabaseInstance {
   public PohcView(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
     super(driverClass, host, port, sid, user, password);
+    this.TABLE_FQN = "POHC_VIEW";
     LOGGER.info("Object has initialized successfully.");
   }
 
@@ -38,7 +38,7 @@ public class PohcView extends DatabaseInstance {
     StringBuffer insertSql = new StringBuffer();
     insertSql
         .append("INSERT INTO ")
-        .append(POHC_VIEW_FQN)
+        .append(TABLE_FQN)
         .append(" ")
         .append(
             "(ID, SUBSYSTEM, REGION, SYSTEM, GROUPNAME, PHASE, NODE_NAME, STATUS, DOMAIN, OUTAGE_START, OUTAGE_END) ")
@@ -95,7 +95,7 @@ public class PohcView extends DatabaseInstance {
    */
   public boolean update(PohcDefinition pohcDefinition) {
     StringBuffer updateSql = new StringBuffer();
-    updateSql.append("UPDATE ").append(POHC_VIEW_FQN).append(" SET ")
+    updateSql.append("UPDATE ").append(TABLE_FQN).append(" SET ")
         .append("PHASE = ?").append(", ").append("STATUS = ?").append(", ")
         .append("OUTAGE_START = ?").append(", ").append("OUTAGE_END = ?")
         .append(" ").append("WHERE ID = ?");
