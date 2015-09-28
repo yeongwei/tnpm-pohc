@@ -29,6 +29,9 @@ public class Inventory {
       pohcDefinition.setInventory(PohcDefinition.Inventory.MATCH);
     } else {
       pohcDefinition.setInventory(PohcDefinition.Inventory.NO_MATCH);
+      LOGGER.warning(String.format(
+          "Node name of %s has not match within inventory.",
+          pohcDefinition.NODE_NAMES));
     }
     return pohcDefinition;
   }
@@ -36,7 +39,7 @@ public class Inventory {
   public boolean setEntityMap(EntityMap entityMap) {
     return TNPM.setEntityMap(entityMap);
   }
-  
+
   public boolean init() {
     return TNPM.getInventory();
   }
