@@ -11,7 +11,7 @@ public class TestEntityMap {
       "D:\\development\\_assignment\\pohc\\src\\EntityMap.csv";
   private EntityMap ENTITY_MAP;
   
-  public TestEntityMap() {
+  public TestEntityMap() throws Exception {
     ENTITY_MAP = new EntityMap(ENTITY_FILE_NAME);
   }
   
