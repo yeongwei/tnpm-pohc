@@ -87,6 +87,14 @@ public class EntityMap {
       return new ArrayList<Entity>();
     }
   }
+  
+  public ArrayList<Entity> flatten() {
+    ArrayList<Entity> x = new ArrayList<Entity>();
+    for (Object domain : ENTITY_MAP.keySet()) {
+      x.addAll(ENTITY_MAP.get(domain));
+    }
+    return x;
+  }
 
   public enum Column {
     DOMAIN_NAME, NETWORK_OBJECT, NC_TABLE_NAME, KEY_COLUMN_NAME, DOMAIN_ID;
