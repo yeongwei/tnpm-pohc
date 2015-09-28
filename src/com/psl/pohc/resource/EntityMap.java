@@ -46,23 +46,23 @@ public class EntityMap {
 
       for (int i = 1; i < content.size(); i++) {
         String[] entityContent = content.get(i).split(",");
-        if (!ENTITY_MAP.containsKey(entityContent[EntityMap.Column.DOMAIN_NAME
+        if (!ENTITY_MAP.containsKey(entityContent[Entity.Column.DOMAIN_NAME
             .getIndex()])) {
           ENTITY_MAP.put(
-              entityContent[EntityMap.Column.DOMAIN_NAME.getIndex()],
+              entityContent[Entity.Column.DOMAIN_NAME.getIndex()],
               new ArrayList<Entity>());
         }
 
         ArrayList<Entity> x = ENTITY_MAP
-            .get(entityContent[EntityMap.Column.DOMAIN_NAME.getIndex()]);
+            .get(entityContent[Entity.Column.DOMAIN_NAME.getIndex()]);
         x.add(new Entity(
-            entityContent[EntityMap.Column.DOMAIN_NAME.getIndex()],
-            entityContent[EntityMap.Column.NETWORK_OBJECT.getIndex()],
-            entityContent[EntityMap.Column.NC_TABLE_NAME.getIndex()],
-            entityContent[EntityMap.Column.KEY_COLUMN_NAME.getIndex()],
-            entityContent[EntityMap.Column.DOMAIN_ID.getIndex()]));
-        // Domain Name as keywill always be uppercase
-        ENTITY_MAP.put(entityContent[EntityMap.Column.DOMAIN_NAME.getIndex()]
+            entityContent[Entity.Column.DOMAIN_NAME.getIndex()],
+            entityContent[Entity.Column.NETWORK_OBJECT.getIndex()],
+            entityContent[Entity.Column.NC_TABLE_NAME.getIndex()],
+            entityContent[Entity.Column.KEY_COLUMN_NAME.getIndex()],
+            entityContent[Entity.Column.DOMAIN_ID.getIndex()]));
+        // Domain Name as key will always be uppercase
+        ENTITY_MAP.put(entityContent[Entity.Column.DOMAIN_NAME.getIndex()]
             .toUpperCase(), x);
       }
     } catch (IOException ex) {
@@ -96,26 +96,5 @@ public class EntityMap {
       x.addAll(ENTITY_MAP.get(domain));
     }
     return x;
-  }
-
-  public enum Column {
-    DOMAIN_NAME, NETWORK_OBJECT, NC_TABLE_NAME, KEY_COLUMN_NAME, DOMAIN_ID;
-
-    public int getIndex() {
-      switch (this) {
-      case DOMAIN_NAME:
-        return 0;
-      case NETWORK_OBJECT:
-        return 1;
-      case NC_TABLE_NAME:
-        return 2;
-      case KEY_COLUMN_NAME:
-        return 3;
-      case DOMAIN_ID:
-        return 4;
-      default:
-        return -1;
-      }
-    }
   }
 }
