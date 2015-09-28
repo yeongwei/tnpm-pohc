@@ -7,6 +7,7 @@
     <property name="jar.name" value="pohc" />
 	<property name="configuration.file" value="configuration.properties" />
 	<property name="entityMap.file" value="EntityMap.csv" />
+	<property name="loggingProperties.file" value="logging.properties" />
 	
 	<target name="clean" 
 		description="Clean up the ${build.dir}/ and ${dist.dir}/ directories">
@@ -32,6 +33,7 @@
 		</jar>
 		<copy file="${src.dir}/${configuration.file}" todir="${dist.dir}"/>
 		<copy file="${src.dir}/${entityMap.file}" todir="${dist.dir}"/>
+		<copy file="${src.dir}/${loggingProperties.file}" todir="${dist.dir}"/>
 	    </target>
 	
 	<target name="main" depends="clean, init, compile, package" />
