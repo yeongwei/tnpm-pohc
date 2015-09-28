@@ -23,6 +23,8 @@ public class Main {
   }
 
   private void run() throws Exception {
+    LOGGER.info(String.format("Started at %s.", formatTimeStamp(getCurrentTimestamp())));
+    
     ConfigurationMap CONFIGURATION_MAP = new ConfigurationMap();
     EntityMap ENTITY_MAP = new EntityMap();
 
@@ -44,7 +46,11 @@ public class Main {
         CONFIGURATION_MAP.get("tnpm.db.schema"),
         CONFIGURATION_MAP.get("tnpm.db.user"),
         CONFIGURATION_MAP.get("tnpm.db.password"));
+    
+    Tnpm TNPM = new Tnpm();
 
+    LOGGER.info("Finished initializing models.");
+    
     int BATCH_SIZE = Integer.parseInt(CONFIGURATION_MAP
         .get("config.batch.size"));
     int TOTAL_ITERATIONS = (POHC.getTotaNumberOfRows() / BATCH_SIZE) + 1;
@@ -62,6 +68,7 @@ public class Main {
           DF.setType(PohcDefinition.Type.INSERT);
         }
       }
+      LOGGER.info("Finished determining object type.");
 
       long RECORDED_TIMESTAMP = getCurrentTimestamp();
       LOGGER.info(String.format("Using %d as recorded timestamp.",
@@ -71,29 +78,29 @@ public class Main {
       for (PohcDefinition DF : POHC_DEFINITIONS) {
         POHC_ARCHIVE.insert(RECORDED_TIMESTAMP, DF);
       }
+      LOGGER.info("Finished insertion into POHC_ARCHIVE.");
 
       ArrayList<PohcDefinition> EXPLODED_POHC_DEFINITIONS = new ArrayList<PohcDefinition>();
-      LOGGER.info("About to explode records.");
+      LOGGER.info(String.format("About to explode %d object(s).", POHC_DEFINITIONS.size()));
       for (PohcDefinition DF : POHC_DEFINITIONS) {
         EXPLODED_POHC_DEFINITIONS.addAll(POHC_VIEW.parse(DF));
       }
-
-      LOGGER.info(String.format("About to further process %d objects.",
-          EXPLODED_POHC_DEFINITIONS.size()));
+      LOGGER.info(String.format("Finished exploding objects. %d objects created.", EXPLODED_POHC_DEFINITIONS.size()));
+      POHC_DEFINITIONS.clear();
 
       LOGGER.info("About to lookup inventory.");
       for (PohcDefinition DF : EXPLODED_POHC_DEFINITIONS) {
-        Tnpm.inventoryLookup(DF);
+        TNPM.inventoryLookup(DF);
       }
+      LOGGER.info("Finished lookup inventory.");
 
-      LOGGER.info("About to insert into POHC_VIEW.");
+      LOGGER.info("About to insert/update into POHC_VIEW.");
       for (PohcDefinition DF : EXPLODED_POHC_DEFINITIONS) {
         POHC_VIEW.execute(DF);
       }
+      LOGGER.info("Finished insert/update into POHC_VIEW.");
 
       LOGGER.info("About to commit all transactions.");
-      LOGGER.info(String.format("config.commit=%s",
-          CONFIGURATION_MAP.get("config.commit")));
       if (CONFIGURATION_MAP.get("config.commit").equals("true")) {
         POHC_ARCHIVE.commit();
         POHC_VIEW.commit();
@@ -101,6 +108,8 @@ public class Main {
       } else {
         LOGGER.info("Transactions are NOT commited.");
       }
+      
+      LOGGER.info(String.format("Finished at %s.", formatTimeStamp(getCurrentTimestamp())));
     }
   }
 
