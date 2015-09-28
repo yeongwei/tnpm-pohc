@@ -59,19 +59,18 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
       * **BLOCK 1**
       * Select all from `POHC` limit by x offset by y
       * Convert all into `PohcDefinition`
-      * Check every `PohcDefinition` with `POHC_Archive`
+      * Check each `PohcDefinition` with `POHC_Archive`
       * If **FOUND** mark as `UPDATE`
       * Else **NOT FOUND** mark as `INSERT`
       * For each `PohcDefinition` executeUpdate into `POHC_Archive`
           * If `UPDATE` then `INSERT INTO POHC_ARCHIVE ('U', *)`
           * If `INSERT` then `INSERT INTO POHC_ARCHIVE ('I', *)`
-      * Compute `POHC_Archive_Summary` (E.g. TotalObjectAsInsert: x TotalObjectAsUpdate: y TotalInventoryFailedLookup: z) 
+      * Compute `POHC_Archive_Summary` (E.g. TotalObjectAsInsert: x TotalObjectAsUpdate: y TotalInventoryFailedLookup: z)
       * **BLOCK 2**
       * Explode delimited records as individual row (E.g. NODE_NAMES)
-      * Validate each exploded records with TNPM Inventory data **(Pending implementation)**
+      * Validate each exploded records with TNPM Inventory data **(Place holder implemented)**
       * If **NO MATCH** mark as `INVALID`
-      * If `PohcDefinition` is an `INSERT` then `generateInsertSql` for `POHC_View`
-      * Else if `PohcDefinition` is an `UPDATE` then `generateUpdateSql` **accordingly** into `POHC_View` (E.g. ... WHERE ID = ? AND NODE_NAME = ? AND OUTAGE_START = ? AND OUTAGE_END = ?) 
+      * Via `execute` to determine `insert` or `update` invocation 
       * Compute `POHC_View_Summary` (E.g. TotalObjectInserted: x TotalObjectUpdated: y TotalObjectInvalidated: z)
       * **BLOCK 3**
   	  * Consolidate `POHC_Archive_Summary` and `POHC_View_Summary` results then advice user 
