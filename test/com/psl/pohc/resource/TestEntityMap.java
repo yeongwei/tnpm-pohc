@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import com.psl.pohc.model.Entity;
+
 public class TestEntityMap {
   private static String ENTITY_FILE_NAME = 
       "D:\\development\\_assignment\\pohc\\src\\EntityMap.csv";
