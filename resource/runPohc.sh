@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "Please provide value for -configurationFile";
+    echo "Please provide value for -configurationFile, -instanceName";
     exit -1;
 fi
 
@@ -21,6 +21,22 @@ case "$1" in
         ;;
 esac;
 
+INSTANCE_NAME=`date +%s`;
+case "$3" in
+    -instanceName)
+        if [ -z "$4" ]; then
+            echo "-instanceName value not provided";
+            exit -1;
+        else
+             INSTANCE_NAME=$4;
+        fi
+        ;;
+    *)
+        echo "-instanceName not provided";
+        exit -1;
+        ;;
+esac;
+
 if [ -z $JAVA_HOME ]; then
     echo "JAVA_HOME is not set!";
     exit -1;
@@ -31,7 +47,7 @@ LOG_DIR=$CURR_DIR"/log/"
 LIB_DIR=$CURR_DIR"/lib/"
 CONFIG_DIR=$CURR_DIR"/configuration/"
 
-CONSOLE_LOG=$LOG_DIR"pohc-console.log"
+CONSOLE_LOG=$LOG_DIR"pohc-console-"$INSTANCE_NAME"-"`date +%Y.%m.%d-%H.%M.%S`".log"
 
 CONFIG_FILE_PROP="-Dconfiguration.file="
 CONFIG_FILE_PATH=$CONFIG_FILE
