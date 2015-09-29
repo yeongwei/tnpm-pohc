@@ -2,6 +2,7 @@ package com.psl.pohc.database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 
 import com.psl.pohc.model.Entity;
@@ -42,27 +43,41 @@ public class TnpmWireless extends Tnpm {
     for (PreparedStatement preparedStatement : PREPARED_STATEMENTS) {
       try {
         preparedStatement.setString(1, pohcDefinition.NODE_NAMES);
-        preparedStatement.setString(1, pohcDefinition.NODE_NAMES);
+        preparedStatement.setString(2, pohcDefinition.NODE_NAMES);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
           String ID = resultSet.getString(1);
           String NAME = resultSet.getString(2);
-          if (ID.equals(pohcDefinition.NODE_NAMES) || 
-              NAME.equals(pohcDefinition.NODE_NAMES)) {
+          if (ID.equals(pohcDefinition.NODE_NAMES)
+              || NAME.equals(pohcDefinition.NODE_NAMES)) {
             found = true;
             break;
           }
         }
+      } catch (SQLSyntaxErrorException ex) {
+        /*
+        switch (ex.getErrorCode()) {
+        case 942:
+          LOGGER.warning(String.format(
+              "%s does not have table / view exits. Hints from node %s.",
+              preparedStatement.toString(), pohcDefinition.NODE_NAMES));
+          break;
+        default:
+          LOGGER.severe(String.format(
+              "Database vendor error code %s not defined.", ex.getErrorCode()));
+          break;
+        }
+        */
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     }
-    
+
     if (!found) {
-      LOGGER.warning(
-          String.format("Node %s is undetermined.", pohcDefinition.NODE_NAMES));
-    } 
-    
+      LOGGER.warning(String.format("Node %s is undetermined.",
+          pohcDefinition.NODE_NAMES));
+    }
+
     return found;
   }
 
