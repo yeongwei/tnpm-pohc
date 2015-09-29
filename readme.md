@@ -6,6 +6,10 @@
 
 The expectation is to have POHC data to be synchronized into TNPM Wireless and Wireline databases.
 
+### User Guide
+
+???
+
 ### Requirement / Use Case / Specification
 
 #### External
@@ -144,4 +148,4 @@ CREATE TABLE POHC_ARCHIVE (
 
 ### Future Work
 
-1. Make solution generic to various database interface. Currently there are a few parts of the program that expects Oracle behavior this should be made more generic.
+1. Make solution generic to various database interfaces. Currently there are a few parts of the program that expects Oracle behavior this should be made more generic.
