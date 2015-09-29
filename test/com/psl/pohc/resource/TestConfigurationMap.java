@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class TestConfigurationMap {
   private static final String configurationFile = 
-      "D:\\development\\_assignment\\pohc\\test\\configuration.properties";
+      "D:\\development\\_assignment\\pohc\\resource\\configuration.properties";
   private final ConfigurationMap CONFIGURATION_MAP;
   
   public TestConfigurationMap() throws Exception {
