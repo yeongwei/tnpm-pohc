@@ -50,15 +50,19 @@ public class TnpmWireless extends Tnpm {
           if (ID.equals(pohcDefinition.NODE_NAMES) || 
               NAME.equals(pohcDefinition.NODE_NAMES)) {
             found = true;
-          } else {
-            LOGGER.warning(
-                String.format("Node %s is undetermined.", pohcDefinition.NODE_NAMES));
+            break;
           }
         }
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     }
+    
+    if (!found) {
+      LOGGER.warning(
+          String.format("Node %s is undetermined.", pohcDefinition.NODE_NAMES));
+    } 
+    
     return found;
   }
 
