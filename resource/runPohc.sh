@@ -10,7 +10,7 @@ CONSOLE_LOG=$LOG_DIR"pohc-console.log"
 CONFIG_FILE_PROP="-Dconfiguration.file="
 CONFIG_FILE_PATH=$CONFIG_DIR"configuration.properties"
 
-ENTITY_MAP_FIL_PROP="-Dconfiguration.entity.map="
+ENTITY_MAP_FILE_PROP="-Dconfiguration.entity.map="
 ENTITY_MAP_FILE_PATH=$CONFIG_DIR"EntityMap.csv"
 
 JAVA_LOGGING_ARG="-Djava.util.logging.config="
@@ -27,9 +27,8 @@ JAVA_MAIN="com.psl.pohc.Main"
 JAVA_CP=$JAVA_FULL_CLS_PATH
 
 JAVA_ARG="$JAVA_LOGGING_ARG$JAVA_LOGGING_FILE 
-$CONFIG_FILE_PROP$CONFIG_FILE 
-$ENTITY_MAP_PROP$ENTITY_MAP_FILE
-$ENTITY_MAP_FIL_PROP$CONFIG_FILE_PATH"
+$CONFIG_FILE_PROP$CONFIG_FILE_PATH 
+$ENTITY_MAP_FILE_PROP$ENTITY_MAP_FILE_PATH"
 
 if [ -z $JAVA_HOME ]; then
     echo "JAVA_HOME is not set!";
@@ -39,10 +38,10 @@ fi
 CMD="$JAVA_HOME/bin/java 
 -cp $JAVA_CP 
 $JAVA_ARG 
-$JAVA_MAIN &>$CONSOLE_LOG"
+$JAVA_MAIN"
 
 echo "About to execute: " $CMD
 
-`$CMD`
+`$CMD &> $CONSOLE_LOG` 
 
 
