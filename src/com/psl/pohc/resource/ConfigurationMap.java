@@ -94,7 +94,9 @@ public class ConfigurationMap {
   }
 
   protected enum Key {
-    POHC_HOST, POHC_DB_PORT, POHC_DB_USER, POHC_DB_PASSWORD, POHC_DB_SCHEMA, TNPM_HOST, TNPM_DB_PORT, TNPM_DB_USER, TNPM_DB_PASSWORD, TNPM_DB_SCHEMA, TNPM_INSTANCE, CONFIG_DELIMITER, CONFIG_BATCH_SIZE, CONFIG_COMMIT;
+    POHC_HOST, POHC_DB_PORT, POHC_DB_USER, POHC_DB_PASSWORD, POHC_DB_SCHEMA, POHC_DB_TABLE,
+    TNPM_HOST, TNPM_DB_PORT, TNPM_DB_USER, TNPM_DB_PASSWORD, TNPM_DB_SCHEMA, TNPM_INSTANCE,
+    CONFIG_DELIMITER, CONFIG_BATCH_SIZE, CONFIG_COMMIT;
 
     String getName() {
       switch (this) {
@@ -108,6 +110,8 @@ public class ConfigurationMap {
         return "pohc.db.password";
       case POHC_DB_SCHEMA:
         return "pohc.db.schema";
+      case POHC_DB_TABLE:
+        return "pohc.db.table";
       case TNPM_HOST:
         return "tnpm.host";
       case TNPM_DB_PORT:
@@ -192,10 +196,12 @@ public class ConfigurationMap {
   }
 
   protected enum Default {
-    CONFIG_BATCH_SIZE, CONFIG_COMMIT;
+    POHC_DB_TABLE, CONFIG_BATCH_SIZE, CONFIG_COMMIT;
 
     String getValue() {
       switch (this) {
+      case POHC_DB_TABLE:
+        return "SMDBUSER3.UFM_OUTAGE";
       case CONFIG_BATCH_SIZE:
         return "1000";
       case CONFIG_COMMIT:
