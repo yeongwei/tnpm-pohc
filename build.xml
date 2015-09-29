@@ -2,14 +2,19 @@
 	<property name="src.dir" location="src" />
 	<property name="bin.dir" location="bin" />
 	<property name="build.dir" location="build" />
-	<property name="dist.dir" location="dist" />
+	<property name="lib.dir" location="lib" />
 	<property name="resource.dir" location="resource" />
+	
+	<property name="dist.dir" location="dist" />
+	<property name="dist.lib.dir" location="dist/lib" />
+	<property name="dist.config.dir" location="dist/configuration" />
 	
     <property name="jar.name" value="pohc" />
 	<property name="configuration.file" value="configuration.properties" />
 	<property name="entityMap.file" value="EntityMap.csv" />
 	<property name="loggingProperties.file" value="logging.properties" />
 	<property name="runPohc.file" value="runPohc.sh" />
+	<property name="oracle.jar" value="ojdbc6.jar" />
 	
 	<target name="clean" 
 		description="Clean up the ${build.dir}/ and ${dist.dir}/ directories">
@@ -22,6 +27,8 @@
 		<tstamp/>
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${dist.lib.dir}"/>
+	    <mkdir dir="${dist.config.dir}"/>
 	</target>
 	
 	<target name="compile"
@@ -31,13 +38,21 @@
 	
 	<target name="package"
 		description="Package the compiled class files into Jar">
-		<jar destfile="${dist.dir}/${jar.name}-${DSTAMP}.jar" basedir="${build.dir}">
+		<!-- pohc jar -->
+		<jar destfile="${dist.lib.dir}/${jar.name}-${DSTAMP}.jar" basedir="${build.dir}">
 		</jar>
-		<copy file="${src.dir}/${configuration.file}" todir="${dist.dir}"/>
-		<copy file="${src.dir}/${entityMap.file}" todir="${dist.dir}"/>
-		<copy file="${src.dir}/${loggingProperties.file}" todir="${dist.dir}"/>
+		<!-- oracle jar -->
+		<copy file="${lib.dir}/${oracle.jar}" todir="${dist.lib.dir}"/>
+		<!-- configuration files -->
+		<copy file="${resource.dir}/${configuration.file}" todir="${dist.config.dir}"/>
+		<copy file="${resource.dir}/${entityMap.file}" todir="${dist.config.dir}"/>
+		<copy file="${resource.dir}/${loggingProperties.file}" todir="${dist.config.dir}"/>
+		<!-- wrapper shell script -->
 		<copy file="${resource.dir}/${runPohc.file}" todir="${dist.dir}"/>
 	    </target>
 	
-	<target name="main" depends="clean, init, compile, package" />
+	<target name="sanitize">
+		  <fixcrlf srcdir="${dist.config.dir}" eol="unix"/>
+	</target>
+	<target name="main" depends="clean, init, compile, package, sanitize" />
 </project>
