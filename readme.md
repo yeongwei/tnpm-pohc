@@ -8,7 +8,29 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
 
 ### User Guide
 
-???
+#### Build
+
+1. Clone the repository via the `git clone` command
+2. Promote lib directory to build path
+3. Configure Apache Ant within Eclipse environment
+4. Locate `build.xml` and right click then run as Ant Build
+5. If all is good, locate the dist/ directory, the following artifacts are expected,
+    * lib/
+        * ojdbc6.jar
+        * pohc-<DSTAMP>.jar   
+    * configuration/
+        * logging.properties
+        * configuration.properties
+        * EntityMap.csv
+    * runPohc.sh
+
+#### Deployment
+
+1. Transfer the files from #5 above into server. E.g. /var/tmp/pohc
+2. Give execution permission to runPohc.sh
+3. Use the following command, `./runPohc.sh -configurationFile `pwd`"<CONFIG_FILE_PATH>" -instanceName <USER_DEFINED_NAME>`. E.g. `./runPohc.sh -configurationFile `pwd`"/configuration/configuration.properties.wireless.dev" -instanceName wireless.dev`
+4. Go into log/ to locate file name that has the pattern, pohc-console-<INSTANCE_NAME>-<yyyy.mm.dd-HH.MM.ss>.log
+5. Inspect the logging.properties file for FileHandler logging
 
 ### Requirement / Use Case / Specification
 
