@@ -19,7 +19,6 @@ public class Pohc extends DatabaseInstance {
   public Pohc(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
     super(driverClass, host, port, sid, user, password);
-    this.TABLE_FQN = "SMDBUSER3.UFM_OUTAGE";
     LOGGER.info("Object has initialized successfully.");
   }
 
