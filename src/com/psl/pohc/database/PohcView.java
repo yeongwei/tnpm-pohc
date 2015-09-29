@@ -48,7 +48,7 @@ public class PohcView extends DatabaseInstance {
     PreparedStatement preparedStatement;
 
     try {
-      LOGGER.info(String.format("Preparing statement for SQL - %s", insertSql));
+      LOGGER.finest(String.format("Preparing statement for SQL - %s", insertSql));
       preparedStatement = connection.prepareStatement(insertSql.toString());
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -56,7 +56,7 @@ public class PohcView extends DatabaseInstance {
     }
 
     try {
-      LOGGER.info("Setting prepared statement");
+      LOGGER.finest("Setting prepared statement");
 
       preparedStatement.setString(1, pohcDefinition.ID);
       preparedStatement.setString(2, pohcDefinition.SUBSYSTEM);
@@ -77,7 +77,7 @@ public class PohcView extends DatabaseInstance {
     }
 
     try {
-      LOGGER.info("Executing prepared statement");
+      LOGGER.finest("Executing prepared statement");
       preparedStatement.executeBatch();
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -103,7 +103,7 @@ public class PohcView extends DatabaseInstance {
     PreparedStatement preparedStatement;
 
     try {
-      LOGGER.info(String.format("Preparing statement for SQL - %s", updateSql));
+      LOGGER.finest(String.format("Preparing statement for SQL - %s", updateSql));
       preparedStatement = connection.prepareStatement(updateSql.toString());
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -111,7 +111,8 @@ public class PohcView extends DatabaseInstance {
     }
 
     try {
-
+      LOGGER.finest("Setting prepared statement");
+      
       preparedStatement.setString(1, pohcDefinition.PHASE);
       preparedStatement.setString(2, pohcDefinition.STATUS);
       preparedStatement.setDate(3, pohcDefinition.OUTAGE_START);
@@ -139,10 +140,13 @@ public class PohcView extends DatabaseInstance {
     ArrayList<PohcDefinition> x = new ArrayList<PohcDefinition>();
     String[] exploded = explode(pohcDefinition.NODE_NAMES);
     for (String y : exploded) {
+      String polishedRecord = y.replaceAll("^\\s+", "");
+      polishedRecord = polishedRecord.replaceAll("\\s+$", "");
+      
       PohcDefinition newDefinition = new PohcDefinition(pohcDefinition.ID,
           pohcDefinition.SUBSYSTEM, pohcDefinition.REGION,
           pohcDefinition.SYSTEM, pohcDefinition.GROUPNAME,
-          pohcDefinition.PHASE, y, pohcDefinition.STATUS,
+          pohcDefinition.PHASE, polishedRecord, pohcDefinition.STATUS,
           pohcDefinition.DOMAIN, pohcDefinition.OUTAGE_START,
           pohcDefinition.OUTAGE_END);
       newDefinition.setType(pohcDefinition.getType());
