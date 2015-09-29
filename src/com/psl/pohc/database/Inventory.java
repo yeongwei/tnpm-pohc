@@ -40,7 +40,7 @@ public class Inventory {
     return TNPM.setEntityMap(entityMap);
   }
 
-  public boolean init() {
+  public boolean init() throws Exception {
     return TNPM.getInventory();
   }
 }

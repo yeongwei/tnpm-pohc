@@ -1,13 +1,16 @@
 package com.psl.pohc.database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLSyntaxErrorException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.psl.pohc.model.Entity;
+import com.psl.pohc.model.PohcDefinition;
 
 public class TnpmWireless extends Tnpm {
+
+  private ArrayList<Entity> ENTITIES = new ArrayList<Entity>();
+  private ArrayList<PreparedStatement> PREPARED_STATEMENTS = new ArrayList<PreparedStatement>();
 
   public TnpmWireless(String driverClass, String host, String port, String sid,
       String user, String password) throws Exception {
@@ -15,47 +18,51 @@ public class TnpmWireless extends Tnpm {
   }
 
   @Override
-  boolean getInventory() {
-    this.INVENTORY_STORE = new ArrayList<String>();
-
-    for (Entity e : this.ENTITY_MAP.flatten()) {
+  boolean getInventory() throws Exception {
+    ENTITIES = this.ENTITY_MAP.flatten();
+    for (Entity entity : ENTITIES) {
       StringBuffer sql = new StringBuffer();
-      sql.append("SELECT ").append(e.KEY_COLUMN_NAME).append(" FROM ")
-          .append(e.TABLE_NAME);
+      sql.append("SELECT ").append(entity.KEY_COLUMN_NAME).append(", ")
+          .append(getKeyColumnWithName(entity.KEY_COLUMN_NAME)).append(" ")
+          .append("FROM ").append(entity.TABLE_NAME).append(" ")
+          .append("WHERE ").append(entity.KEY_COLUMN_NAME).append(" = ?")
+          .append(" ").append("OR ")
+          .append(getKeyColumnWithName(entity.KEY_COLUMN_NAME)).append(" = ?");
 
+      PreparedStatement preparedStatement;
+      preparedStatement = this.connection.prepareStatement(sql.toString());
+      PREPARED_STATEMENTS.add(preparedStatement);
+    }
+    return true;
+  }
+
+  @Override
+  boolean checkIfExist(PohcDefinition pohcDefinition) {
+    boolean found = false;
+    for (PreparedStatement preparedStatement : PREPARED_STATEMENTS) {
       try {
-        Statement statement;
-        ResultSet resultSet;
-        try {
-          statement = this.connection.createStatement();
-          resultSet = statement.executeQuery(sql.toString());
-
-          while (resultSet.next()) {
-            INVENTORY_STORE.add(resultSet.getString(e.KEY_COLUMN_NAME));
+        preparedStatement.setString(1, pohcDefinition.NODE_NAMES);
+        preparedStatement.setString(1, pohcDefinition.NODE_NAMES);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+          String ID = resultSet.getString(1);
+          String NAME = resultSet.getString(2);
+          if (ID.equals(pohcDefinition.NODE_NAMES) || 
+              NAME.equals(pohcDefinition.NODE_NAMES)) {
+            found = true;
+          } else {
+            LOGGER.warning(
+                String.format("Node %s is undetermined.", pohcDefinition.NODE_NAMES));
           }
-        } catch (SQLSyntaxErrorException ex) {
-          switch (ex.getErrorCode()) {
-          case 942:
-            LOGGER.warning(String.format("%s does not exit.", e.TABLE_NAME));
-            break;
-          default:
-            LOGGER
-                .severe(String.format(
-                    "Database vendor error code %s not defined.",
-                    ex.getErrorCode()));
-            break;
-          }
-        } catch (Exception ex) {
-          ex.printStackTrace();
         }
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     }
+    return found;
+  }
 
-    this.LOGGER.info(String.format("Found %d inventory object(s).",
-        INVENTORY_STORE.size()));
-
-    return true;
+  private String getKeyColumnWithName(String keyColumn) {
+    return keyColumn.replace("_ID", "_NAME");
   }
 }

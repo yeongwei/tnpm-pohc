@@ -1,8 +1,6 @@
 package com.psl.pohc.database;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import com.psl.pohc.model.PohcDefinition;
 
 public class TnpmWireline extends Tnpm {
 
@@ -12,23 +10,7 @@ public class TnpmWireline extends Tnpm {
   }
   
   @Override
-  boolean getInventory() {
-    this.INVENTORY_STORE = new ArrayList<String>();
-    String SQL = "SELECT STR_NAME FROM SE_DESC ROWNUM = 10";
-    
-    Statement statement;
-    ResultSet resultSet;
-    try {
-      statement = this.connection.createStatement();
-      resultSet = statement.executeQuery(SQL);
-      
-      while (resultSet.next()) {
-        INVENTORY_STORE.add(resultSet.getString("STR_NAME"));
-      }
-    } catch (Exception ex) {
-      
-    }
-    
+  boolean checkIfExist(PohcDefinition pohcDefinition) {
     return true;
   }
 }

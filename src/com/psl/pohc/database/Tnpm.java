@@ -22,7 +22,8 @@ public abstract class Tnpm  extends DatabaseInstance {
     return true;
   }
   
-  boolean getInventory() {
+  /** Prepare inventory hook */
+  boolean getInventory() throws Exception {
     return true;
   }
 
