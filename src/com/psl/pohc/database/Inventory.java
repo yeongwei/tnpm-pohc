@@ -27,10 +27,13 @@ public class Inventory {
   public PohcDefinition lookup(PohcDefinition pohcDefinition) {
     if (TNPM.checkIfExist(pohcDefinition)) {
       pohcDefinition.setInventory(PohcDefinition.Inventory.MATCH);
+      LOGGER.finest(String.format(
+          "Node name of %s has MATCH within inventory.",
+          pohcDefinition.NODE_NAMES));
     } else {
       pohcDefinition.setInventory(PohcDefinition.Inventory.NO_MATCH);
       LOGGER.warning(String.format(
-          "Node name of %s has not match within inventory.",
+          "Node name of %s has NO MATCH within inventory.",
           pohcDefinition.NODE_NAMES));
     }
     return pohcDefinition;
