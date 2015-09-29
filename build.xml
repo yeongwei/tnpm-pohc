@@ -8,6 +8,7 @@
 	<property name="dist.dir" location="dist" />
 	<property name="dist.lib.dir" location="dist/lib" />
 	<property name="dist.config.dir" location="dist/configuration" />
+	<property name="dist.log.dir" location="dist/log" />
 	
     <property name="jar.name" value="pohc" />
 	<property name="configuration.file" value="configuration.properties" />
@@ -29,6 +30,7 @@
 		<mkdir dir="${dist.dir}"/>
 		<mkdir dir="${dist.lib.dir}"/>
 	    <mkdir dir="${dist.config.dir}"/>
+		<mkdir dir="${dist.log.dir}"/>
 	</target>
 	
 	<target name="compile"
@@ -51,8 +53,10 @@
 		<copy file="${resource.dir}/${runPohc.file}" todir="${dist.dir}"/>
 	    </target>
 	
-	<target name="sanitize">
+	<target name="sanitize"
+		description="Fix CRLF for text files">
 		  <fixcrlf srcdir="${dist.config.dir}" eol="unix"/>
+		  <fixcrlf file="${dist.dir}/${runPohc.file}" eol="unix"/>
 	</target>
 	<target name="main" depends="clean, init, compile, package, sanitize" />
 </project>
