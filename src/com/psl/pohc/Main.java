@@ -23,8 +23,9 @@ public class Main {
   }
 
   private void run() throws Exception {
-    LOGGER.info(String.format("Started at %s.", formatTimeStamp(getCurrentTimestamp())));
-    
+    LOGGER.info(String.format("Started at %s.",
+        formatTimeStamp(getCurrentTimestamp())));
+
     ConfigurationMap CONFIGURATION_MAP = new ConfigurationMap();
     EntityMap ENTITY_MAP = new EntityMap();
 
@@ -33,7 +34,8 @@ public class Main {
         CONFIGURATION_MAP.get("pohc.db.schema"),
         CONFIGURATION_MAP.get("pohc.db.user"),
         CONFIGURATION_MAP.get("pohc.db.password"));
-    
+    POHC.setTableName(CONFIGURATION_MAP.get("pohc.db.table"));
+
     PohcArchive POHC_ARCHIVE = new PohcArchive(
         CONFIGURATION_MAP.get("tnpm.host"),
         CONFIGURATION_MAP.get("tnpm.db.port"),
@@ -46,7 +48,7 @@ public class Main {
         CONFIGURATION_MAP.get("tnpm.db.schema"),
         CONFIGURATION_MAP.get("tnpm.db.user"),
         CONFIGURATION_MAP.get("tnpm.db.password"));
-    
+
     Inventory INVENTORY = new Inventory(CONFIGURATION_MAP.get("tnpm.instance"),
         CONFIGURATION_MAP.get("tnpm.host"),
         CONFIGURATION_MAP.get("tnpm.db.port"),
@@ -57,7 +59,7 @@ public class Main {
     INVENTORY.init();
 
     LOGGER.info("Finished initializing models.");
-    
+
     int BATCH_SIZE = Integer.parseInt(CONFIGURATION_MAP
         .get("config.batch.size"));
     int TOTAL_ITERATIONS = (POHC.getTotaNumberOfRows() / BATCH_SIZE) + 1;
@@ -88,11 +90,14 @@ public class Main {
       LOGGER.info("Finished insertion into POHC_ARCHIVE.");
 
       ArrayList<PohcDefinition> EXPLODED_POHC_DEFINITIONS = new ArrayList<PohcDefinition>();
-      LOGGER.info(String.format("About to explode %d object(s).", POHC_DEFINITIONS.size()));
+      LOGGER.info(String.format("About to explode %d object(s).",
+          POHC_DEFINITIONS.size()));
       for (PohcDefinition DF : POHC_DEFINITIONS) {
         EXPLODED_POHC_DEFINITIONS.addAll(POHC_VIEW.parse(DF));
       }
-      LOGGER.info(String.format("Finished exploding objects. %d objects created.", EXPLODED_POHC_DEFINITIONS.size()));
+      LOGGER.info(String.format(
+          "Finished exploding objects. %d objects created.",
+          EXPLODED_POHC_DEFINITIONS.size()));
       POHC_DEFINITIONS.clear();
 
       LOGGER.info("About to lookup inventory.");
@@ -115,8 +120,9 @@ public class Main {
       } else {
         LOGGER.info("Transactions are NOT commited.");
       }
-      
-      LOGGER.info(String.format("Finished at %s.", formatTimeStamp(getCurrentTimestamp())));
+
+      LOGGER.info(String.format("Finished at %s.",
+          formatTimeStamp(getCurrentTimestamp())));
     }
   }
 
@@ -126,11 +132,11 @@ public class Main {
     calendar.setTime(new Date());
     return calendar.getTimeInMillis();
   }
-  
+
   private String formatTimeStamp(long timestamp) {
     return formatTimeStamp(timestamp, "yyyy-mm-dd HH:MM:ss");
   }
-  
+
   private String formatTimeStamp(long timestamp, String format) {
     SimpleDateFormat sdf = new SimpleDateFormat(format);
     return sdf.format(new Date(timestamp));
