@@ -28,7 +28,7 @@ The expectation is to have POHC data to be synchronized into TNPM Wireless and W
 
 1. Transfer the files from #5 above into server. E.g. /var/tmp/pohc
 2. Give execution permission to runPohc.sh
-3. Use the following command, `./runPohc.sh -configurationFile `pwd`"<CONFIG_FILE_PATH>" -instanceName <USER_DEFINED_NAME>`. E.g. `./runPohc.sh -configurationFile `pwd`"/configuration/configuration.properties.wireless.dev" -instanceName wireless.dev`
+3. Use the following command, `export JAVA_HOME=<JAVA_HOME_PATH>; ./runPohc.sh -configurationFile `pwd`"<CONFIG_FILE_PATH>" -instanceName <USER_DEFINED_NAME>`. E.g. `./runPohc.sh -configurationFile `pwd`"/configuration/configuration.properties.wireless.dev" -instanceName wireless.dev`
 4. Go into log/ to locate file name that has the pattern, pohc-console-<INSTANCE_NAME>-<yyyy.mm.dd-HH.MM.ss>.log
 5. Inspect the logging.properties file for FileHandler logging
 
