@@ -41,7 +41,7 @@ public class PohcView extends DatabaseInstance {
         .append(TABLE_FQN)
         .append(" ")
         .append(
-            "(ID, SUBSYSTEM, REGION, SYSTEM, GROUPNAME, PHASE, NODE_NAME, STATUS, DOMAIN, OUTAGE_START, OUTAGE_END) ")
+            "(ID, SUBSYSTEM, REGION, SYSTEM, GROUPNAME, PHASE, NODE_NAMES, STATUS, DOMAIN, OUTAGE_START, OUTAGE_END) ")
         .append(" ").append("VALUES (")
         .append("?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?").append(")");
 
