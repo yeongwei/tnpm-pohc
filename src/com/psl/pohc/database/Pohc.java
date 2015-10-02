@@ -94,6 +94,7 @@ public class Pohc extends DatabaseInstance {
     
     try {
       statement = connection.createStatement();
+      LOGGER.finest(String.format("About to execute SQL - %s", sql.toString()));
       resultSet = statement.executeQuery(sql.toString());
       resultSet.next();
       return resultSet.getInt("MAX_RNUM");
