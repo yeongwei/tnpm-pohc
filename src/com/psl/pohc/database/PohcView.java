@@ -96,9 +96,11 @@ public class PohcView extends DatabaseInstance {
   public boolean update(PohcDefinition pohcDefinition) {
     StringBuffer updateSql = new StringBuffer();
     updateSql.append("UPDATE ").append(TABLE_FQN).append(" SET ")
-        .append("PHASE = ?").append(", ").append("STATUS = ?").append(", ")
-        .append("OUTAGE_START = ?").append(", ").append("OUTAGE_END = ?")
-        .append(" ").append("WHERE ID = ?");
+        .append("PHASE = ?").append(", ").append("STATUS = ?").append(" ")
+        .append("WHERE ID = ?").append(" ")
+        .append("AND OUTAGE_START = ?").append(" ")
+        .append("AND OUTAGE_END = ?").append(" ")
+        .append("AND NODE_NAMES = ?");
 
     PreparedStatement preparedStatement;
 
@@ -115,9 +117,11 @@ public class PohcView extends DatabaseInstance {
       
       preparedStatement.setString(1, pohcDefinition.PHASE);
       preparedStatement.setString(2, pohcDefinition.STATUS);
-      preparedStatement.setDate(3, pohcDefinition.OUTAGE_START);
-      preparedStatement.setDate(4, pohcDefinition.OUTAGE_END);
-      preparedStatement.setString(5, pohcDefinition.ID);
+      
+      preparedStatement.setString(3, pohcDefinition.ID);
+      preparedStatement.setDate(4, pohcDefinition.OUTAGE_START);
+      preparedStatement.setDate(5, pohcDefinition.OUTAGE_END);
+      preparedStatement.setString(6, pohcDefinition.NODE_NAMES);
 
       preparedStatement.addBatch();
     } catch (Exception ex) {
