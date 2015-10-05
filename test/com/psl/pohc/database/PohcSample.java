@@ -105,7 +105,13 @@ public class PohcSample {
       totalResult = + r;
     }
     
-    TNPM_STAGING.commit();
+    if (CONFIGURATION_MAP.get("config.commit").equals("true")) {
+      LOGGER.info("Transactions WILL be commited");
+      TNPM_STAGING.commit();
+    } else {
+      LOGGER.info("Transactions WILL NOT be commited");
+    }
+    
     LOGGER.info(String.format("There are %d results with total of %d.", result.length, totalResult));
     
     LOGGER.info("ENDED");
