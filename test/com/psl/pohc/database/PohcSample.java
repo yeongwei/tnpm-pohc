@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.psl.pohc.resource.ConfigurationMap;
@@ -68,11 +69,14 @@ public class PohcSample {
     
     StringBuffer INSERT_POHC = new StringBuffer();
     INSERT_POHC.append("INSERT INTO POHC_VIEW "
-        + "(NODE_NAMES, OUTAGE_START, OUTAGE_END) "
+        + "(ID, NODE_NAMES, OUTAGE_START, OUTAGE_END) "
         + "values "
-        + "(?, '05-OCT-15', '15-OCT-15')");
+        + "(?, ?, '05-OCT-15', '15-OCT-15')");
     PreparedStatement INSERT_POHC_PS = TNPM_STAGING.connection.prepareStatement(INSERT_POHC.toString());
     
+    Random rn = new Random();
+    int seed = 999999999; 
+        
     StringBuffer CELL_SQL = new StringBuffer();
     CELL_SQL
       .append("SELECT RNUM, CELL_ID FROM (SELECT ROWNUM RNUM, CELL_ID FROM NC_CELL) tbl ")
@@ -82,7 +86,9 @@ public class PohcSample {
     while (resultSet.next()) {
       String cellId = resultSet.getString("CELL_ID");
       //LOGGER.info(String.format("Found CELL_ID of %s.", cellId));
-      INSERT_POHC_PS.setString(1, cellId);
+      String uuid = String.format("%d%d%d", rn.nextInt(seed), rn.nextInt(seed), rn.nextInt(seed));
+      INSERT_POHC_PS.setString(1, uuid);
+      INSERT_POHC_PS.setString(2, cellId);
       INSERT_POHC_PS.addBatch();
     }
     
@@ -95,7 +101,9 @@ public class PohcSample {
     while (resultSet.next()) {
       String eutranCellId = resultSet.getString("EUTRANCELL_ID");
       //LOGGER.info(String.format("Found EUTRANCELL_ID of %s.", eutranCellId));
-      INSERT_POHC_PS.setString(1, eutranCellId);
+      String uuid = String.format("%d%d%d", rn.nextInt(seed), rn.nextInt(seed), rn.nextInt(seed));
+      INSERT_POHC_PS.setString(1, uuid);
+      INSERT_POHC_PS.setString(2, eutranCellId);
       INSERT_POHC_PS.addBatch();
     }
     
