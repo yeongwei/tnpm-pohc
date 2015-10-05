@@ -64,10 +64,13 @@ public class PohcSample {
     generateRandomNumber(1, totalNumberOfEutranCell, oracleMaxNumberOfExpressionInList, eutranCellRnum);
     
     LOGGER.info(String.format("Will pick up %d CELLs.", cellRnum.size()));
-    LOGGER.info(String.format("Will pick up %d CELLs.", eutranCellRnum.size()));
+    LOGGER.info(String.format("Will pick up %d EUTRAN CELLs.", eutranCellRnum.size()));
     
     StringBuffer INSERT_POHC = new StringBuffer();
-    INSERT_POHC.append("INSERT INTO TEST_POHC_COGNOS (NODE_NAMES, OUTAGE_START, OUTAGE_END) values (?, '02-OCT-15', '10-OCT-15')");
+    INSERT_POHC.append("INSERT INTO TEST_POHC_COGNOS "
+        + "(NODE_NAMES, OUTAGE_START, OUTAGE_END) "
+        + "values "
+        + "(?, '05-OCT-15', '15-OCT-15')");
     PreparedStatement INSERT_POHC_PS = TNPM_STAGING.connection.prepareStatement(INSERT_POHC.toString());
     
     StringBuffer CELL_SQL = new StringBuffer();
