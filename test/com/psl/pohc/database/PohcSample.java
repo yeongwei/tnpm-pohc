@@ -67,7 +67,7 @@ public class PohcSample {
     LOGGER.info(String.format("Will pick up %d EUTRAN CELLs.", eutranCellRnum.size()));
     
     StringBuffer INSERT_POHC = new StringBuffer();
-    INSERT_POHC.append("INSERT INTO TEST_POHC_COGNOS "
+    INSERT_POHC.append("INSERT INTO POHV_VIEW "
         + "(NODE_NAMES, OUTAGE_START, OUTAGE_END) "
         + "values "
         + "(?, '05-OCT-15', '15-OCT-15')");
